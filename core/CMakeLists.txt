@@ -1,5 +1,5 @@
 set(SRC_FILES
-    src/Core.hpp
+    src/Core.cpp
 )
 
 add_library(core STATIC ${SRC_FILES})

@@ -1,10 +1,11 @@
 #include <iostream>
 
-#include "core/src/Core.hpp"
+#include "../../../core/include/Core.hpp"
 
 int main()
 {
-    Core::init();
+    Core core;
+    core.init();
 
     return 0;
 }
