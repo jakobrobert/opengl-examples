@@ -3,6 +3,7 @@ set(SRC_FILES
 )
 
 add_library(core STATIC ${SRC_FILES})
+target_include_directories(core PUBLIC include)
 
 # Add glfw library
 set(GLFW_BUILD_EXAMPLES OFF)
