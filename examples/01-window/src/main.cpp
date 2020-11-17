@@ -1,8 +1,10 @@
 #include <iostream>
 
+#include "core/src/Core.hpp"
+
 int main()
 {
-    std::cout << "Hello World!" << std::endl;
+    Core::init();
 
     return 0;
 }

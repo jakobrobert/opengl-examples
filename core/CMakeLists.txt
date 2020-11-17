@@ -1,4 +1,8 @@
-add_library(core STATIC)
+set(SRC_FILES
+    src/Core.hpp
+)
+
+add_library(core STATIC ${SRC_FILES})
 
 # Add glfw library
 set(GLFW_BUILD_EXAMPLES OFF)
