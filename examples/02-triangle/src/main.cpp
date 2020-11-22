@@ -29,39 +29,45 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 
     // define vertex data and upload it to buffer
-    // TODO: change to 2D-coord
-    float vertices[3 * 3] = {
-        // in xy-plane, counter-clockwise order
-        -0.5f, -0.5f, 0.0f, // left bottom
-        0.5f, -0.5f, 0.0f,  // right bottom
-        0.0f, 0.5, 0.0f,    // center top
+    float vertices[] = {
+        // counter-clockwise order
+        // position     color
+        -0.5f, -0.5f, 1.0, 0.0, 0.0,    // left bottom, red
+        0.5f, -0.5f, 0.0, 1.0, 0.0,     // right bottom, green
+        0.0f, 0.5, 0.0, 0.0, 1.0        // center top, blue
     };
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     // define vertex layout
-    glEnableVertexAttribArray(0); // corresponds to location of "position" attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+    glEnableVertexAttribArray(0);   // 0 = location in shader of "position" attribute
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), nullptr);
+    glEnableVertexAttribArray(1);   // 1 = location in shader of "color" attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
 
     // create shader
     std::string vertexSource = R"(
         #version 330 core
 
-        layout(location = 0) in vec3 position;
+        layout(location = 0) in vec2 position;
+        layout(location = 1) in vec3 color;
+        out vec3 fragColor;
 
         void main()
         {
-            gl_Position = vec4(position, 1.0);
+            gl_Position = vec4(position, 0.0, 1.0);
+            fragColor = color;
         }
     )";
 
     std::string fragmentSource = R"(
         #version 330 core
 
-        layout(location = 0) out vec4 fragColor;
+        in vec3 fragColor;
+        out vec4 outColor;
 
         void main()
         {
-            fragColor = vec4(1.0, 0.0, 0.0, 1.0);
+            outColor = vec4(fragColor, 1.0);
         }
     )";
 
@@ -71,9 +77,11 @@ int main()
     }
     glUseProgram(shader);
 
+    // black background
     glClearColor(0.0f, 0.0, 0.0f, 1.0f);
 
     while (!glfwWindowShouldClose(window)) {
+        // clear screen
         glClear(GL_COLOR_BUFFER_BIT);
 
         // draw the triangle
@@ -83,7 +91,7 @@ int main()
         glfwPollEvents();
     }
 
-    // clean up
+    // TODO: clean up
 
     glfwDestroyWindow(window);
     glfwTerminate();
