@@ -91,7 +91,10 @@ int main()
         glfwPollEvents();
     }
 
-    // TODO: clean up
+    // clean up: delete all opengl resources
+    glDeleteBuffers(1, &vertexBuffer);
+    glDeleteVertexArrays(1, &vertexArray);
+    glDeleteProgram(shader);
 
     glfwDestroyWindow(window);
     glfwTerminate();
@@ -221,6 +224,8 @@ static GLuint createShader(const std::string& vertexSource, const std::string& f
     // clean up, do not need temporary compile results
     glDetachShader(program, vertexShader);
     glDetachShader(program, fragmentShader);
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
 
     return program;
 }
