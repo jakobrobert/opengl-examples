@@ -36,18 +36,40 @@ int main()
         0.5f, -0.5f, 0.0f,  // right bottom
         0.0f, 0.5, 0.0f,    // center top
     };
-
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     // define vertex layout
-    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(0); // corresponds to location of "position" attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 
     // create shader
+    std::string vertexSource = R"(
+        #version 330 core
+
+        layout(location = 0) in vec3 position;
+
+        void main()
+        {
+            gl_Position = vec4(position, 1.0);
+        }
+    )";
+
+    std::string fragmentSource = R"(
+        #version 330 core
+
+        layout(location = 0) out vec4 fragColor;
+
+        void main()
+        {
+            fragColor = vec4(1.0, 0.0, 0.0, 1.0);
+        }
+    )";
+
     GLuint shader = createShader("foo", "bar");
     if (!shader) {
         return 1;
     }
+    glUseProgram(shader);
 
     glClearColor(0.0f, 0.0, 0.0f, 1.0f);
 
@@ -60,6 +82,8 @@ int main()
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+
+    // clean up
 
     glfwDestroyWindow(window);
     glfwTerminate();
@@ -180,7 +204,7 @@ static GLuint createShader(const std::string& vertexSource, const std::string& f
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
 
-        std::cerr << "Failed to link program!" << std::endl;
+        std::cerr << "Failed to link shader program!" << std::endl;
         std::cerr << infoLog.data() << std::endl;
 
         return 0;
