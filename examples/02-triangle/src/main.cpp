@@ -65,7 +65,7 @@ int main()
         }
     )";
 
-    GLuint shader = createShader("foo", "bar");
+    GLuint shader = createShader(vertexSource, fragmentSource);
     if (!shader) {
         return 1;
     }
