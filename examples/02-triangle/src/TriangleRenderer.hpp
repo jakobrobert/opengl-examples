@@ -5,7 +5,7 @@
 class TriangleRenderer : public Renderer
 {
 public:
-    virtual void onInit() override;
+    virtual bool onInit() override;
     virtual void onDestroy() override;
     virtual void onDraw() override;
 private:

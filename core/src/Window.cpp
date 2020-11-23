@@ -33,8 +33,11 @@ Window::Window(const char* title, int width, int height, Renderer* renderer)
         throw std::runtime_error("Failed to initialize glad!");
     }
 
-    // TODO: check for error
-    m_renderer->onInit();
+    if (!m_renderer->onInit()) {
+        glfwDestroyWindow(m_window);
+        glfwTerminate();
+        throw std::runtime_error("Failed to initialize renderer!");
+    }
 }
 
 Window::~Window()

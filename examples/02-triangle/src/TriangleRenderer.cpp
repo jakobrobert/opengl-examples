@@ -7,7 +7,7 @@
 
 static GLuint createShader(const std::string &vertexSource, const std::string &fragmentSource);
 
-void TriangleRenderer::onInit()
+bool TriangleRenderer::onInit()
 {
     // create vertex array
     glGenVertexArrays(1, &m_vertexArray);
@@ -38,7 +38,7 @@ void TriangleRenderer::onInit()
             #version 330 core
 
             layout(location = 0) in vec2 position;
-            layout(location = 1) in vec3 color;
+            layout(location = 1) inn vec3 color;
             out vec3 fragColor;
 
             void main()
@@ -61,15 +61,15 @@ void TriangleRenderer::onInit()
         )";
 
     m_shader = createShader(vertexSource, fragmentSource);
-    if (!m_shader)
-    {
-        // TODO: return false for error
-        return;
+    if (!m_shader) {
+        return false;
     }
     glUseProgram(m_shader);
 
     // black background
     glClearColor(0.0f, 0.0, 0.0f, 1.0f);
+
+    return true;
 }
 
 void TriangleRenderer::onDestroy()
