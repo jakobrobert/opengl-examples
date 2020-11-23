@@ -1,6 +1,6 @@
 # Create core library
 set(SRC_FILES
-    src/Core.cpp
+    src/Window.cpp
 )
 add_library(core ${SRC_FILES})
 target_include_directories(core PUBLIC include)
