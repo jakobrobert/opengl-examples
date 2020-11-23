@@ -10,9 +10,6 @@ class Window
 public:
     Window(const char* title, int width, int height, Renderer* renderer);
     ~Window();
-
-    // TODO: only temporary
-    GLFWwindow* getWindow() const { return m_window; }
 private:
     GLFWwindow* m_window = nullptr;
 };
