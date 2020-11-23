@@ -6,16 +6,14 @@
 
 #include "TriangleRenderer.hpp"
 
-static GLuint createShader(const std::string& vertexSource, const std::string& fragmentSource);
-
 int main()
 {
     try
     {
         TriangleRenderer renderer;
         Window window("02 - Triangle", 800, 800, &renderer);
-    }
-    catch (std::exception e)
+        window.runEventLoop();
+    } catch (std::exception e)
     {
         std::cerr << e.what() << std::endl;
         return 1;

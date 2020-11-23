@@ -10,6 +10,9 @@ class Window
 public:
     Window(const char* title, int width, int height, Renderer* renderer);
     ~Window();
+
+    void runEventLoop();
 private:
     GLFWwindow* m_window = nullptr;
+    Renderer* m_renderer = nullptr;
 };

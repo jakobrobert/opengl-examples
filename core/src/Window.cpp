@@ -3,12 +3,10 @@
 #include <iostream>
 #include <stdexcept>
 
-static void errorCallback(int error, const char* description)
-{
-    std::cout << "GLFW error " << error << ": " << description << std::endl;
-}
+static void errorCallback(int error, const char* description);
 
 Window::Window(const char* title, int width, int height, Renderer* renderer)
+    : m_renderer(renderer)
 {
     glfwSetErrorCallback(errorCallback);
     
@@ -35,20 +33,28 @@ Window::Window(const char* title, int width, int height, Renderer* renderer)
         throw std::runtime_error("Failed to initialize glad!");
     }
 
-    // TODO: extract loop into public function
-    renderer->onInit();
-
-    while (!glfwWindowShouldClose(m_window)) {
-        renderer->onDraw();
-        glfwSwapBuffers(m_window);
-        glfwPollEvents();
-    }
-
-    renderer->onDestroy();
+    // TODO: check for error
+    m_renderer->onInit();
 }
 
 Window::~Window()
 {
+    m_renderer->onDestroy();
     glfwDestroyWindow(m_window);
     glfwTerminate();
+}
+
+void Window::runEventLoop()
+{
+    while (!glfwWindowShouldClose(m_window))
+    {
+        m_renderer->onDraw();
+        glfwSwapBuffers(m_window);
+        glfwPollEvents();
+    }
+}
+
+static void errorCallback(int error, const char *description)
+{
+    std::cout << "GLFW error " << error << ": " << description << std::endl;
 }
