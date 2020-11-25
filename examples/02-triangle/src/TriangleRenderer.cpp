@@ -54,13 +54,6 @@ bool TriangleRenderer::onInit()
                 outColor = vec4(fragColor, 1.0);
             }
         )";
-    // TODO Remove
-    /*m_shader = createShader(vertexSource, fragmentSource);
-    if (!m_shader) {
-        return false;
-    }
-    glUseProgram(m_shader);
-    */
     m_shader = new ShaderProgram(vertexShaderSource, fragmentShaderSource);
     m_shader->bind();
 
