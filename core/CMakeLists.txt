@@ -1,6 +1,7 @@
 # Add source files to core
 add_library(core
     src/Window.cpp
+    src/VertexBuffer.cpp
 )
 # Add include directory to core
 target_include_directories(core PUBLIC include)

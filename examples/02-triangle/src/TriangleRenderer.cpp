@@ -14,10 +14,6 @@ bool TriangleRenderer::onInit()
     glBindVertexArray(m_vertexArray);
 
     // create vertex buffer (is part of state of vertex array)
-    glGenBuffers(1, &m_vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
-
-    // define vertex data and upload it to buffer
     float vertices[] = {
         // counter-clockwise order
         // position     color
@@ -25,7 +21,15 @@ bool TriangleRenderer::onInit()
         0.5f, -0.5f, 0.0, 1.0, 0.0,  // right bottom, green
         0.0f, 0.5, 0.0, 0.0, 1.0     // center top, blue
     };
+    m_vertexBuffer = new VertexBuffer(vertices, sizeof(vertices));
+    m_vertexBuffer->bind();
+
+    /*
+    glGenBuffers(1, &m_vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
+
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    */
 
     // define vertex layout (is part of state of vertex array)
     glEnableVertexAttribArray(0); // 0 = location in shader of "position" attribute
@@ -76,7 +80,7 @@ void TriangleRenderer::onDestroy()
 {
     // clean up: delete all opengl resources
     glDeleteVertexArrays(1, &m_vertexArray);
-    glDeleteBuffers(1, &m_vertexBuffer);
+    delete m_vertexBuffer;
     glDeleteProgram(m_shader);
 }
 

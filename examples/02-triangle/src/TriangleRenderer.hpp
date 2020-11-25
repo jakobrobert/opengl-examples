@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core/Renderer.hpp"
+#include "core/gl/VertexBuffer.hpp"
 
 class TriangleRenderer : public Renderer
 {
@@ -10,6 +11,6 @@ public:
     virtual void onDraw() override;
 private:
     unsigned int m_vertexArray;
-    unsigned int m_vertexBuffer;
+    VertexBuffer* m_vertexBuffer = nullptr;
     unsigned int m_shader;
 };
