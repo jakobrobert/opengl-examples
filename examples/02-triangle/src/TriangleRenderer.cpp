@@ -10,10 +10,10 @@ static GLuint createShader(const std::string &vertexSource, const std::string &f
 bool TriangleRenderer::onInit()
 {
     // create vertex array
-    glGenVertexArrays(1, &m_vertexArray);
-    glBindVertexArray(m_vertexArray);
+    m_vertexArray = new VertexArray();
+    m_vertexArray->bind();
 
-    // create vertex buffer (is part of state of vertex array)
+    // create vertex buffer
     float vertices[] = {
         // counter-clockwise order
         // position     color
@@ -24,14 +24,7 @@ bool TriangleRenderer::onInit()
     m_vertexBuffer = new VertexBuffer(vertices, sizeof(vertices));
     m_vertexBuffer->bind();
 
-    /*
-    glGenBuffers(1, &m_vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
-
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    */
-
-    // define vertex layout (is part of state of vertex array)
+    // define vertex layout (is stored in state of vertex array)
     glEnableVertexAttribArray(0); // 0 = location in shader of "position" attribute
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), nullptr);
     glEnableVertexAttribArray(1); // 1 = location in shader of "color" attribute
@@ -78,8 +71,8 @@ bool TriangleRenderer::onInit()
 
 void TriangleRenderer::onDestroy()
 {
-    // clean up: delete all opengl resources
-    glDeleteVertexArrays(1, &m_vertexArray);
+    // clean up: delete all opengl objects
+    delete m_vertexArray;
     delete m_vertexBuffer;
     glDeleteProgram(m_shader);
 }
@@ -88,6 +81,8 @@ void TriangleRenderer::onDraw()
 {
     // clear screen
     glClear(GL_COLOR_BUFFER_BIT);
+
+    // TODO: move bind and unbind calls into here
 
     // draw the triangle
     glDrawArrays(GL_TRIANGLES, 0, 3);

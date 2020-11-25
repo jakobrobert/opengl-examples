@@ -2,11 +2,11 @@
 
 #include "core/gl/OpenGLObject.hpp"
 
-class VertexBuffer : public OpenGLObject
+class VertexArray : public OpenGLObject
 {
 public:
-    VertexBuffer(const float* data, unsigned int size);
-    virtual ~VertexBuffer();
+    VertexArray();
+    virtual ~VertexArray();
 
     virtual void bind() const override;
     virtual void unbind() const override;

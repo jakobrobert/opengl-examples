@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core/Renderer.hpp"
+#include "core/gl/VertexArray.hpp"
 #include "core/gl/VertexBuffer.hpp"
 
 class TriangleRenderer : public Renderer
@@ -10,7 +11,7 @@ public:
     virtual void onDestroy() override;
     virtual void onDraw() override;
 private:
-    unsigned int m_vertexArray;
+    VertexArray* m_vertexArray = nullptr;
     VertexBuffer* m_vertexBuffer = nullptr;
     unsigned int m_shader;
 };
