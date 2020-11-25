@@ -3,6 +3,7 @@ add_library(core
     src/Window.cpp
     src/VertexArray.cpp
     src/VertexBuffer.cpp
+    src/ShaderProgram.cpp
 )
 # Add include directory to core
 target_include_directories(core PUBLIC include)

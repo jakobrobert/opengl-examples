@@ -3,6 +3,7 @@
 #include "core/Renderer.hpp"
 #include "core/gl/VertexArray.hpp"
 #include "core/gl/VertexBuffer.hpp"
+#include "core/gl/ShaderProgram.hpp"
 
 class TriangleRenderer : public Renderer
 {
@@ -13,5 +14,5 @@ public:
 private:
     VertexArray* m_vertexArray = nullptr;
     VertexBuffer* m_vertexBuffer = nullptr;
-    unsigned int m_shader;
+    ShaderProgram* m_shader = nullptr;
 };
