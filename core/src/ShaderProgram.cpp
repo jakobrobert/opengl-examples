@@ -7,63 +7,12 @@
 #include <vector>
 #include <stdexcept>
 
+static unsigned int compileShader(unsigned int type, const std::string &source);
+
 ShaderProgram::ShaderProgram(const std::string &vertexShaderSource, const std::string &fragmentShaderSource)
 {
-    // TODO Refactor, extract compileShader(type, source)
-
-    // compile vertex shader
-    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    const GLchar *vertexSourceCStr = vertexShaderSource.c_str();
-    glShaderSource(vertexShader, 1, &vertexSourceCStr, 0);
-    glCompileShader(vertexShader);
-
-    // check for compile errors
-    int isCompiled = 0;
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
-    if (!isCompiled)
-    {
-        // get error message
-        int maxLength = 0;
-        glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
-        std::vector<GLchar> infoLog(maxLength);
-        glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
-
-        // clean up
-        glDeleteShader(vertexShader);
-
-        // TODO combine message into exception?
-        std::cerr << "Failed to compile vertex shader!" << std::endl;
-        std::cerr << infoLog.data() << std::endl;
-
-        throw std::runtime_error("Failed to compile vertex shader!");
-    }
-
-    // compile fragment shader
-    unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    const char* fragmentSourceCStr = fragmentShaderSource.c_str();
-    glShaderSource(fragmentShader, 1, &fragmentSourceCStr, 0);
-    glCompileShader(fragmentShader);
-
-    // check for compile errors
-    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
-    if (isCompiled == GL_FALSE)
-    {
-        // get error message
-        int maxLength = 0;
-        glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
-        std::vector<GLchar> infoLog(maxLength);
-        glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
-
-        // clean up
-        glDeleteShader(fragmentShader);
-        glDeleteShader(vertexShader);
-
-        // TODO combine message into exception?
-        std::cerr << "Failed to compile fragment shader!" << std::endl;
-        std::cerr << infoLog.data() << std::endl;
-
-        throw std::runtime_error("Failed to compile fragment shader!");
-    }
+    unsigned int vertexShader = compileShader(GL_VERTEX_SHADER, vertexShaderSource);
+    unsigned int fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
 
     // link vertex and fragment shader into program
     unsigned int program = glCreateProgram();
@@ -73,7 +22,7 @@ ShaderProgram::ShaderProgram(const std::string &vertexShaderSource, const std::s
 
     // check for link errors
     int isLinked = 0;
-    glGetProgramiv(program, GL_LINK_STATUS, (int *)&isLinked);
+    glGetProgramiv(program, GL_LINK_STATUS, &isLinked);
     if (isLinked == GL_FALSE)
     {
         // get error message
@@ -116,4 +65,37 @@ void ShaderProgram::bind() const
 void ShaderProgram::unbind() const
 {
     glUseProgram(0);
+}
+
+static unsigned int compileShader(unsigned int type, const std::string &source)
+{
+    unsigned int shader = glCreateShader(type);
+    const char* sourceCStr = source.c_str();
+    glShaderSource(shader, 1, &sourceCStr, nullptr);
+    glCompileShader(shader);
+
+    // check for compile errors
+    int isCompiled = 0;
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
+    if (!isCompiled)
+    {
+        // get error message
+        int maxLength = 0;
+        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
+        std::vector<char> infoLog(maxLength);
+        glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
+
+        // clean up
+        glDeleteShader(shader);
+
+        // TODO combine message into exception?
+        std::string typeStr = (type == GL_VERTEX_SHADER) ? "vertex" : "fragment";
+        std::string errorMessage = "Failed to compile " + typeStr + " shader!";
+        std::cerr << errorMessage << std::endl;
+        std::cerr << infoLog.data() << std::endl;
+        
+        throw std::runtime_error(errorMessage);
+    }
+
+    return shader;
 }
