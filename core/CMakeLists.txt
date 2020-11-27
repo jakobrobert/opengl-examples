@@ -1,8 +1,11 @@
-# Create core library
-set(SRC_FILES
-    src/Core.cpp
+# Add source files to core
+add_library(core
+    src/Window.cpp
+    src/VertexArray.cpp
+    src/VertexBuffer.cpp
+    src/ShaderProgram.cpp
 )
-add_library(core ${SRC_FILES})
+# Add include directory to core
 target_include_directories(core PUBLIC include)
 
 # Add glad library to core
