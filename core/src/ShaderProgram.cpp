@@ -37,14 +37,18 @@ void ShaderProgram::unbind() const
 
 int ShaderProgram::getAttribLocation(const std::string& name) const
 {
-    return glGetAttribLocation(m_id, name.c_str());
+    int location = glGetAttribLocation(m_id, name.c_str());
+    if (location == -1) {
+        throw std::runtime_error("Failed to find attribute '" + name + "'!");
+    }
+    return location;
 }
 
 static std::string readSourceFromFile(const std::string& filename)
 {
     std::ifstream file(filename);
     if (!file) {
-        throw std::runtime_error("Failed to open file: '" + filename + "'!");
+        throw std::runtime_error("Failed to open file '" + filename + "'!");
     }
 
     std::string source;
