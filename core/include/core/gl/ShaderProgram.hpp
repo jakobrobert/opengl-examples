@@ -12,6 +12,8 @@ public:
 
     virtual void bind() const override;
     virtual void unbind() const override;
+
+    int getAttribLocation(const std::string& name) const;
 private:
     unsigned int m_id;
 };

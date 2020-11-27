@@ -7,39 +7,14 @@
 
 bool TriangleRenderer::onInit()
 {
-    // create vertex array
-    m_vertexArray = new VertexArray();
-    m_vertexArray->bind();
-
-    // create vertex buffer
-    float vertices[] = {
-        // counter-clockwise order
-        // position     color
-        -0.5f, -0.5f, 1.0, 0.0, 0.0, // left bottom, red
-        0.5f, -0.5f, 0.0, 1.0, 0.0,  // right bottom, green
-        0.0f, 0.5, 0.0, 0.0, 1.0     // center top, blue
-    };
-    m_vertexBuffer = new VertexBuffer(vertices, sizeof(vertices));
-    m_vertexBuffer->bind();
-
-    // TODO retrieve attrib locations from shader by name, better than hardcoding (remove layout specifier in shader source)
-    // vertex array and vertex buffer need to be bound while setting the vertex attributes
-    // vertex attributes are part of the state of the vertex array
-    int positionLocation = 0;
-    int colorLocation = 1;
-    m_vertexArray->setVertexAttrib(positionLocation, 2, 5, 0);
-    m_vertexArray->setVertexAttrib(colorLocation, 3, 5, 2);
-    
-    m_vertexBuffer->unbind();
-    m_vertexArray->unbind();
-
     // TODO load shader source from file
     // create shader
     std::string vertexShaderSource = R"(
             #version 330 core
 
-            layout(location = 0) in vec2 position;
-            layout(location = 1) in vec3 color;
+            in vec2 position;
+            in vec3 color;
+
             out vec3 fragColor;
 
             void main()
@@ -53,6 +28,7 @@ bool TriangleRenderer::onInit()
             #version 330 core
 
             in vec3 fragColor;
+            
             out vec4 outColor;
 
             void main()
@@ -61,6 +37,32 @@ bool TriangleRenderer::onInit()
             }
         )";
     m_shader = new ShaderProgram(vertexShaderSource, fragmentShaderSource);
+
+    // create vertex array
+    m_vertexArray = new VertexArray();
+    m_vertexArray->bind();
+
+    // create vertex buffer
+    float vertices[] = {
+        // counter-clockwise order
+        // position         color
+        -0.5f, -0.5f,   1.0, 0.0, 0.0,  // left bottom, red
+        0.5f, -0.5f,    0.0, 1.0, 0.0,  // right bottom, green
+        0.0f, 0.5,      0.0, 0.0, 1.0   // center top, blue
+    };
+    m_vertexBuffer = new VertexBuffer(vertices, sizeof(vertices));
+    m_vertexBuffer->bind();
+
+    // specify vertex layout by setting the vertex attributes
+    // vertex array and vertex buffer need to be bound
+    // vertex attributes are part of the state of the vertex array
+    int positionLocation = m_shader->getAttribLocation("position");
+    int colorLocation = m_shader->getAttribLocation("color");
+    m_vertexArray->setVertexAttrib(positionLocation, 2, 5, 0);
+    m_vertexArray->setVertexAttrib(colorLocation, 3, 5, 2);
+
+    m_vertexBuffer->unbind();
+    m_vertexArray->unbind();
 
     // black background
     glClearColor(0.0f, 0.0, 0.0f, 1.0f);

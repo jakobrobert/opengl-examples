@@ -32,7 +32,12 @@ void ShaderProgram::unbind() const
     glUseProgram(0);
 }
 
-static unsigned int compileShader(unsigned int type, const std::string &source)
+int ShaderProgram::getAttribLocation(const std::string& name) const
+{
+    return glGetAttribLocation(m_id, name.c_str());
+}
+
+static unsigned int compileShader(unsigned int type, const std::string& source)
 {
     unsigned int shader = glCreateShader(type);
     const char* sourceCStr = source.c_str();
@@ -42,8 +47,7 @@ static unsigned int compileShader(unsigned int type, const std::string &source)
     // check for compile errors
     int isCompiled = 0;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
-    if (!isCompiled)
-    {
+    if (!isCompiled) {
         // get error message
         int maxLength = 0;
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);

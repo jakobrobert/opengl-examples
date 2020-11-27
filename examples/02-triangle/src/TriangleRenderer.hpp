@@ -12,7 +12,7 @@ public:
     virtual void onDestroy() override;
     virtual void onDraw() override;
 private:
+    ShaderProgram *m_shader = nullptr;
     VertexArray* m_vertexArray = nullptr;
-    VertexBuffer* m_vertexBuffer = nullptr;
-    ShaderProgram* m_shader = nullptr;
+    VertexBuffer* m_vertexBuffer = nullptr;  
 };
