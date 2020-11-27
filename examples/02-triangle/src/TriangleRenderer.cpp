@@ -22,14 +22,14 @@ bool TriangleRenderer::onInit()
     m_vertexBuffer = new VertexBuffer(vertices, sizeof(vertices));
     m_vertexBuffer->bind();
 
-    // TODO provide wrapper functions in VertexArray
     // TODO retrieve attrib locations from shader by name, better than hardcoding (remove layout specifier in shader source)
-    // define vertex layout (is stored in state of vertex array)
-    glEnableVertexAttribArray(0); // 0 = location in shader of "position" attribute
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), nullptr);
-    glEnableVertexAttribArray(1); // 1 = location in shader of "color" attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
-
+    // vertex array and vertex buffer need to be bound while setting the vertex attributes
+    // vertex attributes are part of the state of the vertex array
+    int positionLocation = 0;
+    int colorLocation = 1;
+    m_vertexArray->setVertexAttrib(positionLocation, 2, 5, 0);
+    m_vertexArray->setVertexAttrib(colorLocation, 3, 5, 2);
+    
     m_vertexBuffer->unbind();
     m_vertexArray->unbind();
 
@@ -83,7 +83,7 @@ void TriangleRenderer::onDraw()
 
     // draw the triangle
     // binding and unbinding not necessary because they are the same objects each time
-    // just to keep it more organized
+    // just to keep it more organized, easier to extend
     m_vertexArray->bind();
     m_shader->bind();
     glDrawArrays(GL_TRIANGLES, 0, 3);
