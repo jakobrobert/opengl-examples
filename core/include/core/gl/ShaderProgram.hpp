@@ -7,7 +7,7 @@
 class ShaderProgram : public OpenGLObject
 {
 public:
-    ShaderProgram(const std::string& vertexShaderSource, const std::string& fragmentShaderSource);
+    ShaderProgram(const std::string &vertexShaderFilename, const std::string &fragmentShaderFilename);
     virtual ~ShaderProgram();
 
     virtual void bind() const override;

@@ -11,7 +11,7 @@ public:
     virtual void bind() const override;
     virtual void unbind() const override;
 
-    void setVertexAttrib(int location, unsigned int attribSize, unsigned int vertexSize, unsigned int offset) const;
+    void setVertexAttribute(int location, unsigned int attributeSize, unsigned int vertexSize, unsigned int offset) const;
 private:
     unsigned int m_id;
 };

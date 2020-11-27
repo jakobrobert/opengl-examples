@@ -3,15 +3,18 @@
 #include <glad/glad.h>
 
 #include <iostream>
-#include <string>
+#include <fstream>
 #include <vector>
 #include <stdexcept>
 
+static std::string readSourceFromFile(const std::string& filename);
 static unsigned int compileShader(unsigned int type, const std::string &source);
 static unsigned int linkProgram(unsigned int vertexShader, unsigned int fragmentShader);
 
-ShaderProgram::ShaderProgram(const std::string &vertexShaderSource, const std::string &fragmentShaderSource)
+ShaderProgram::ShaderProgram(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename)
 {
+    const std::string vertexShaderSource = readSourceFromFile(vertexShaderFilename);
+    const std::string fragmentShaderSource = readSourceFromFile(fragmentShaderFilename);
     unsigned int vertexShader = compileShader(GL_VERTEX_SHADER, vertexShaderSource);
     unsigned int fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
     m_id = linkProgram(vertexShader, fragmentShader);
@@ -35,6 +38,22 @@ void ShaderProgram::unbind() const
 int ShaderProgram::getAttribLocation(const std::string& name) const
 {
     return glGetAttribLocation(m_id, name.c_str());
+}
+
+static std::string readSourceFromFile(const std::string& filename)
+{
+    std::ifstream file(filename);
+    if (!file) {
+        throw std::runtime_error("Failed to open file: '" + filename + "'!");
+    }
+
+    std::string source;
+    std::string line;
+    while (std::getline(file, line)) {
+        source += line + '\n';
+    }
+
+    return source;
 }
 
 static unsigned int compileShader(unsigned int type, const std::string& source)

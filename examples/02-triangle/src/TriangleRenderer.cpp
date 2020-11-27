@@ -7,36 +7,9 @@
 
 bool TriangleRenderer::onInit()
 {
-    // TODO load shader source from file
     // create shader
-    std::string vertexShaderSource = R"(
-            #version 330 core
-
-            in vec2 position;
-            in vec3 color;
-
-            out vec3 fragColor;
-
-            void main()
-            {
-                gl_Position = vec4(position, 0.0, 1.0);
-                fragColor = color;
-            }
-        )";
-
-    std::string fragmentShaderSource = R"(
-            #version 330 core
-
-            in vec3 fragColor;
-
-            out vec4 outColor;
-
-            void main()
-            {
-                outColor = vec4(fragColor, 1.0);
-            }
-        )";
-    m_shader = new ShaderProgram(vertexShaderSource, fragmentShaderSource);
+    std::string shaderFilename = "assets/shaders/vertex_color";
+    m_shader = new ShaderProgram(shaderFilename + ".vert", shaderFilename + ".frag");
 
     // create vertex array
     m_vertexArray = new VertexArray();
@@ -61,10 +34,10 @@ bool TriangleRenderer::onInit()
     unsigned int vertexSize = positionSize + colorSize;
     unsigned int positionLocation = m_shader->getAttribLocation("position");
     unsigned int offset = 0;
-    m_vertexArray->setVertexAttrib(positionLocation, positionSize, vertexSize, offset);
+    m_vertexArray->setVertexAttribute(positionLocation, positionSize, vertexSize, offset);
     offset += positionSize;
     unsigned int colorLocation = m_shader->getAttribLocation("color");
-    m_vertexArray->setVertexAttrib(colorLocation, colorSize, vertexSize, offset);
+    m_vertexArray->setVertexAttribute(colorLocation, colorSize, vertexSize, offset);
 
     m_vertexBuffer->unbind();
     m_vertexArray->unbind();
