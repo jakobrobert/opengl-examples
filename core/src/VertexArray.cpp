@@ -22,8 +22,8 @@ void VertexArray::unbind() const
     glBindVertexArray(0);
 }
 
-void VertexArray::setVertexAttrib(int location, unsigned int attribElementCount, unsigned int vertexElementCount, unsigned int offset) const
+void VertexArray::setVertexAttrib(int location, unsigned int attribSize, unsigned int vertexSize, unsigned int offset) const
 {
     glEnableVertexAttribArray(location);
-    glVertexAttribPointer(location, attribElementCount, GL_FLOAT, GL_FALSE, vertexElementCount * sizeof(float), (void*)(offset * sizeof(float)));
+    glVertexAttribPointer(location, attribSize, GL_FLOAT, GL_FALSE, vertexSize * sizeof(float), (void *)(offset * sizeof(float)));
 }

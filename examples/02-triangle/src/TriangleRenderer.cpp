@@ -28,7 +28,7 @@ bool TriangleRenderer::onInit()
             #version 330 core
 
             in vec3 fragColor;
-            
+
             out vec4 outColor;
 
             void main()
@@ -56,10 +56,15 @@ bool TriangleRenderer::onInit()
     // specify vertex layout by setting the vertex attributes
     // vertex array and vertex buffer need to be bound
     // vertex attributes are part of the state of the vertex array
-    int positionLocation = m_shader->getAttribLocation("position");
-    int colorLocation = m_shader->getAttribLocation("color");
-    m_vertexArray->setVertexAttrib(positionLocation, 2, 5, 0);
-    m_vertexArray->setVertexAttrib(colorLocation, 3, 5, 2);
+    unsigned int positionSize = 2;
+    unsigned int colorSize = 3;
+    unsigned int vertexSize = positionSize + colorSize;
+    unsigned int positionLocation = m_shader->getAttribLocation("position");
+    unsigned int offset = 0;
+    m_vertexArray->setVertexAttrib(positionLocation, positionSize, vertexSize, offset);
+    offset += positionSize;
+    unsigned int colorLocation = m_shader->getAttribLocation("color");
+    m_vertexArray->setVertexAttrib(colorLocation, colorSize, vertexSize, offset);
 
     m_vertexBuffer->unbind();
     m_vertexArray->unbind();
