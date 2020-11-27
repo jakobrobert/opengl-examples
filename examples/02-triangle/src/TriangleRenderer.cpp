@@ -32,11 +32,11 @@ bool TriangleRenderer::onInit()
     unsigned int positionSize = 2;
     unsigned int colorSize = 3;
     unsigned int vertexSize = positionSize + colorSize;
-    unsigned int positionLocation = m_shader->getAttribLocation("position");
+    unsigned int positionLocation = m_shader->getAttributeLocation("position");
     unsigned int offset = 0;
     m_vertexArray->setVertexAttribute(positionLocation, positionSize, vertexSize, offset);
     offset += positionSize;
-    unsigned int colorLocation = m_shader->getAttribLocation("color");
+    unsigned int colorLocation = m_shader->getAttributeLocation("color");
     m_vertexArray->setVertexAttribute(colorLocation, colorSize, vertexSize, offset);
 
     m_vertexBuffer->unbind();

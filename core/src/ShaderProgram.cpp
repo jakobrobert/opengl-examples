@@ -35,7 +35,7 @@ void ShaderProgram::unbind() const
     glUseProgram(0);
 }
 
-int ShaderProgram::getAttribLocation(const std::string& name) const
+int ShaderProgram::getAttributeLocation(const std::string& name) const
 {
     int location = glGetAttribLocation(m_id, name.c_str());
     if (location == -1) {
