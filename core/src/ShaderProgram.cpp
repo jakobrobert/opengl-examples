@@ -51,18 +51,16 @@ static unsigned int compileShader(unsigned int type, const std::string& source)
         // get error message
         int maxLength = 0;
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
-        std::vector<char> infoLog(maxLength);
-        glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
+        std::vector<char> infoLogData(maxLength);
+        glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLogData[0]);
+        std::string infoLog(std::begin(infoLogData), std::end(infoLogData));
 
         // clean up
         glDeleteShader(shader);
 
-        // TODO combine message into exception?
         std::string typeStr = (type == GL_VERTEX_SHADER) ? "vertex" : "fragment";
-        std::string errorMessage = "Failed to compile " + typeStr + " shader!";
-        std::cerr << errorMessage << std::endl;
-        std::cerr << infoLog.data() << std::endl;
-        
+        std::string errorMessage = "Failed to compile " + typeStr + " shader!\n" + infoLog;
+
         throw std::runtime_error(errorMessage);
     }
 
@@ -84,19 +82,18 @@ static unsigned int linkProgram(unsigned int vertexShader, unsigned int fragment
         // get error message
         int maxLength = 0;
         glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
-        std::vector<char> infoLog(maxLength);
-        glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
+        std::vector<char> infoLogData(maxLength);
+        glGetProgramInfoLog(program, maxLength, &maxLength, &infoLogData[0]);
+        std::string infoLog(std::begin(infoLogData), std::end(infoLogData));
 
         // clean up
         glDeleteProgram(program);
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
 
-        // TODO combine message into exception?
-        std::cerr << "Failed to link shader program!" << std::endl;
-        std::cerr << infoLog.data() << std::endl;
+        std::string errorMessage = "Failed to link shader program!\n" + infoLog;
 
-        throw std::runtime_error("Failed to link shader program!");
+        throw std::runtime_error(errorMessage);
     }
 
     // clean up, do not need temporary compile results
