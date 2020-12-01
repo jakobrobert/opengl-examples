@@ -4,8 +4,9 @@
 #include "core/gl/ShaderProgram.hpp"
 #include "core/gl/VertexArray.hpp"
 #include "core/gl/VertexBuffer.hpp"
+#include "core/gl/IndexBuffer.hpp"
 
-class TriangleRenderer : public Renderer
+class RectangleRenderer : public Renderer
 {
 public:
     virtual bool onInit() override;
@@ -15,4 +16,5 @@ private:
     ShaderProgram* m_shader = nullptr;
     VertexArray* m_vertexArray = nullptr;
     VertexBuffer* m_vertexBuffer = nullptr;
+    IndexBuffer* m_indexBuffer = nullptr;
 };
