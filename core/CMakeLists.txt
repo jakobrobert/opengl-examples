@@ -1,9 +1,9 @@
 # Add source files to core
 add_library(core
     src/Window.cpp
-    src/VertexArray.cpp
-    src/VertexBuffer.cpp
-    src/ShaderProgram.cpp
+    src/gl/ShaderProgram.cpp
+    src/gl/VertexArray.cpp
+    src/gl/VertexBuffer.cpp
 )
 # Add include directory to core
 target_include_directories(core PUBLIC include)
