@@ -4,8 +4,11 @@ add_library(core
     src/gl/ShaderProgram.cpp
     src/gl/VertexArray.cpp
     src/gl/VertexBuffer.cpp
+    src/gl/IndexBuffer.cpp
 )
+
 # Add include directory to core
+# Make it public so client code can access it
 target_include_directories(core PUBLIC include)
 
 # Add glad library to core
