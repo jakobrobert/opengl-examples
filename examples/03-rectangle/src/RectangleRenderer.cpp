@@ -77,7 +77,6 @@ void RectangleRenderer::onDraw()
     m_shader->bind();
     m_vertexArray->bind();
     m_indexBuffer->bind();
-    glDrawArrays(GL_TRIANGLES, 0, 3);
     glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
     m_shader->unbind();
     m_vertexArray->unbind();
