@@ -15,7 +15,7 @@ bool RectangleRenderer::onInit()
     m_vertexArray = new VertexArray();
     m_vertexArray->bind();
 
-    // create vertex buffer
+    // create vertex buffer 
     float vertices[] = {
         // counter-clockwise order
         // position         color
@@ -25,10 +25,10 @@ bool RectangleRenderer::onInit()
         -0.5f, 0.5f,    1.0f, 1.0f, 1.0f    // left top, white
     };
     m_vertexBuffer = new VertexBuffer(vertices, sizeof(vertices));
+    // connect vertex buffer to vertex array
     m_vertexBuffer->bind();
 
     // specify vertex layout by setting the vertex attributes
-    // vertex array and vertex buffer need to be bound
     // vertex attributes are part of the state of the vertex array
     unsigned int positionSize = 2;
     unsigned int colorSize = 3;
@@ -47,12 +47,16 @@ bool RectangleRenderer::onInit()
         2, 3, 0     // left top triangle
     };
     m_indexBuffer = new IndexBuffer(indices, 6);
-
-    m_vertexBuffer->unbind();
+    // connect index buffer to vertex array
+    m_indexBuffer->bind();
+    
+    // unbind objects to leave a clean state
     m_vertexArray->unbind();
+    m_vertexBuffer->unbind();
+    m_indexBuffer->unbind();
 
     // black background
-    glClearColor(0.0f, 0.0, 0.0f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     return true;
 }
@@ -71,14 +75,12 @@ void RectangleRenderer::onDraw()
     // clear screen
     glClear(GL_COLOR_BUFFER_BIT);
 
-    // draw the triangle
+    // draw the rectangle
     // binding and unbinding not necessary because they are the same objects each time
     // just to keep it more organized, easier to extend
     m_shader->bind();
     m_vertexArray->bind();
-    m_indexBuffer->bind();
     glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
     m_shader->unbind();
     m_vertexArray->unbind();
-    m_indexBuffer->unbind();
 }

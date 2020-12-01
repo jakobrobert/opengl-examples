@@ -43,7 +43,7 @@ bool TriangleRenderer::onInit()
     m_vertexArray->unbind();
 
     // black background
-    glClearColor(0.0f, 0.0, 0.0f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     return true;
 }
