@@ -4,14 +4,14 @@
 
 #include "core/Window.hpp"
 
-#include "TriangleRenderer.hpp"
+#include "RectangleRenderer.hpp"
 
 int main()
 {
     try
     {
-        TriangleRenderer renderer;
-        Window window("02 - Triangle", 800, 800, &renderer);
+        RectangleRenderer renderer;
+        Window window("03 - Rectangle", 800, 800, &renderer);
         window.runEventLoop();
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;

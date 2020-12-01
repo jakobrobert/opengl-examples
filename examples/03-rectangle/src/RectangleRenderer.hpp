@@ -5,7 +5,7 @@
 #include "core/gl/VertexBuffer.hpp"
 #include "core/gl/ShaderProgram.hpp"
 
-class TriangleRenderer : public Renderer
+class RectangleRenderer : public Renderer
 {
 public:
     virtual bool onInit() override;

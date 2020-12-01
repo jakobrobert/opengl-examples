@@ -1,11 +1,11 @@
-#include "TriangleRenderer.hpp"
+#include "RectangleRenderer.hpp"
 
 #include <glad/glad.h>
 #include <iostream>
 #include <string>
 #include <vector>
 
-bool TriangleRenderer::onInit()
+bool RectangleRenderer::onInit()
 {
     // create shader
     std::string shaderFilename = "assets/shaders/vertex_color";
@@ -48,7 +48,7 @@ bool TriangleRenderer::onInit()
     return true;
 }
 
-void TriangleRenderer::onDestroy()
+void RectangleRenderer::onDestroy()
 {
     // clean up: delete all opengl objects
     delete m_shader;
@@ -56,7 +56,7 @@ void TriangleRenderer::onDestroy()
     delete m_vertexBuffer;
 }
 
-void TriangleRenderer::onDraw()
+void RectangleRenderer::onDraw()
 {
     // clear screen
     glClear(GL_COLOR_BUFFER_BIT);
@@ -68,5 +68,5 @@ void TriangleRenderer::onDraw()
     m_vertexArray->bind();
     glDrawArrays(GL_TRIANGLES, 0, 3);
     m_shader->unbind();
-    m_vertexArray->unbind();
+    m_vertexArray->unbind();   
 }
