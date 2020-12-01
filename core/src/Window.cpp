@@ -4,6 +4,7 @@
 #include <stdexcept>
 
 static void errorCallback(int error, const char* description);
+static void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 
 Window::Window(const char* title, int width, int height, Renderer* renderer)
     : m_renderer(renderer)
@@ -24,6 +25,8 @@ Window::Window(const char* title, int width, int height, Renderer* renderer)
         glfwTerminate();
         throw std::runtime_error("Failed to create GLFW window!");
     }
+
+    glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
 
     glfwMakeContextCurrent(m_window);
 
@@ -60,4 +63,9 @@ void Window::runEventLoop()
 static void errorCallback(int error, const char *description)
 {
     std::cout << "GLFW error " << error << ": " << description << std::endl;
+}
+
+static void framebuffer_size_callback(GLFWwindow *window, int width, int height)
+{
+    glViewport(0, 0, width, height);
 }
