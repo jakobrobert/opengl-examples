@@ -19,9 +19,9 @@ bool TriangleRenderer::onInit()
     float vertices[] = {
         // counter-clockwise order
         // position         color
-        -0.5f, -0.5f,   1.0, 0.0, 0.0,  // left bottom, red
-        0.5f, -0.5f,    0.0, 1.0, 0.0,  // right bottom, green
-        0.0f, 0.5,      0.0, 0.0, 1.0   // center top, blue
+        -0.5f, -0.5f,   1.0f, 0.0f, 0.0f,   // left bottom, red
+        0.5f, -0.5f,    0.0f, 1.0f, 0.0f,   // right bottom, green
+        0.0f, 0.5f,     0.0, 0.0f, 1.0f     // center top, blue
     };
     m_vertexBuffer = new VertexBuffer(vertices, sizeof(vertices));
     m_vertexBuffer->bind();

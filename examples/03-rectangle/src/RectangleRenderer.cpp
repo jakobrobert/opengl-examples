@@ -19,9 +19,10 @@ bool RectangleRenderer::onInit()
     float vertices[] = {
         // counter-clockwise order
         // position         color
-        -0.5f, -0.5f,   1.0, 0.0, 0.0,  // left bottom, red
-        0.5f, -0.5f,    0.0, 1.0, 0.0,  // right bottom, green
-        0.0f, 0.5,      0.0, 0.0, 1.0   // center top, blue
+        -0.5f, -0.5f,   1.0f, 0.0f, 0.0f,   // left bottom, red
+        0.5f, -0.5f,    0.0f, 1.0f, 0.0f,   // right bottom, green
+        0.5f, 0.5f,     0.0f, 0.0f, 1.0f,   // right top, blue
+        -0.5f, 0.5f,    1.0f, 1.0f, 1.0f    // left top, white
     };
     m_vertexBuffer = new VertexBuffer(vertices, sizeof(vertices));
     m_vertexBuffer->bind();
@@ -39,6 +40,14 @@ bool RectangleRenderer::onInit()
     unsigned int colorLocation = m_shader->getAttributeLocation("color");
     m_vertexArray->setVertexAttribute(colorLocation, colorSize, vertexSize, offset);
 
+    // create index buffer
+    unsigned int indices[6] {
+        // counter-clockwise order
+        0, 1, 2,    // right bottom triangle
+        2, 3, 0     // left top triangle
+    };
+    m_indexBuffer = new IndexBuffer(indices, 6);
+
     m_vertexBuffer->unbind();
     m_vertexArray->unbind();
 
@@ -54,6 +63,7 @@ void RectangleRenderer::onDestroy()
     delete m_shader;
     delete m_vertexArray;
     delete m_vertexBuffer;
+    delete m_indexBuffer;
 }
 
 void RectangleRenderer::onDraw()
@@ -66,7 +76,10 @@ void RectangleRenderer::onDraw()
     // just to keep it more organized, easier to extend
     m_shader->bind();
     m_vertexArray->bind();
+    m_indexBuffer->bind();
     glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
     m_shader->unbind();
-    m_vertexArray->unbind();   
+    m_vertexArray->unbind();
+    m_indexBuffer->unbind();
 }

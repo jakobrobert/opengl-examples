@@ -1,9 +1,9 @@
 #pragma once
 
 #include "core/Renderer.hpp"
+#include "core/gl/ShaderProgram.hpp"
 #include "core/gl/VertexArray.hpp"
 #include "core/gl/VertexBuffer.hpp"
-#include "core/gl/ShaderProgram.hpp"
 
 class TriangleRenderer : public Renderer
 {
@@ -14,5 +14,5 @@ public:
 private:
     ShaderProgram* m_shader = nullptr;
     VertexArray* m_vertexArray = nullptr;
-    VertexBuffer* m_vertexBuffer = nullptr;  
+    VertexBuffer* m_vertexBuffer = nullptr;
 };
