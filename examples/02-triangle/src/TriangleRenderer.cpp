@@ -28,23 +28,24 @@ bool TriangleRenderer::onInit()
     m_vertexBuffer = new VertexBuffer(vertices, sizeof(vertices));
     m_vertexBuffer->bind();
 
+    // TODO Remove old code
     // specify vertex layout by setting the vertex attributes
     // vertex array and vertex buffer need to be bound
     // vertex attributes are part of the state of the vertex array
-    unsigned int positionSize = 2;
-    unsigned int colorSize = 3;
-    unsigned int vertexSize = positionSize + colorSize;
-    unsigned int positionLocation = m_shader->getAttributeLocation("position");
-    unsigned int offset = 0;
-    m_vertexArray->setVertexAttribute(positionLocation, positionSize, vertexSize, offset);
-    offset += positionSize;
-    unsigned int colorLocation = m_shader->getAttributeLocation("color");
-    m_vertexArray->setVertexAttribute(colorLocation, colorSize, vertexSize, offset);
+    // unsigned int positionSize = 2;
+    // unsigned int colorSize = 3;
+    // unsigned int vertexSize = positionSize + colorSize;
+    // unsigned int positionLocation = m_shader->getAttributeLocation("position");
+    // unsigned int offset = 0;
+    // m_vertexArray->setVertexAttribute(positionLocation, positionSize, vertexSize, offset);
+    // offset += positionSize;
+    // unsigned int colorLocation = m_shader->getAttributeLocation("color");
+    // m_vertexArray->setVertexAttribute(colorLocation, colorSize, vertexSize, offset);
 
     // TODO integrate
     VertexLayout layout;
-    layout.addAttribute(positionLocation, positionSize);
-    layout.addAttribute(colorLocation, colorSize);
+    layout.addAttribute(m_shader->getAttributeLocation("position"), 2);
+    layout.addAttribute(m_shader->getAttributeLocation("color"), 3);
     m_vertexArray->setVertexLayout(layout);
 
     m_vertexBuffer->unbind();

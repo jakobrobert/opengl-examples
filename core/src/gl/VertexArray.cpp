@@ -32,9 +32,13 @@ void VertexArray::setVertexAttribute(unsigned int location, unsigned int attribu
 
 void VertexArray::setVertexLayout(const VertexLayout& layout) const
 {
-    std::cout << "vertex size: " << layout.getVertexSize() << std::endl;
     for (const auto& attribute : layout.getAttributes()) {
-        // TODO implement
-        std::cout << "attribute: " << attribute.location << ", " << attribute.size << ", " << attribute.offset << std::endl;
+        glEnableVertexAttribArray(attribute.location);
+        glVertexAttribPointer(
+            attribute.location, attribute.size,
+            GL_FLOAT, GL_FALSE,
+            layout.getVertexSize() * sizeof(float),
+            (void*)(attribute.offset * sizeof(float))
+        );
     }
 }
