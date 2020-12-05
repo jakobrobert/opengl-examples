@@ -8,7 +8,7 @@
 bool RectangleRenderer::onInit()
 {
     // create shader
-    std::string shaderFilename = "assets/shaders/vertex_color";
+    std::string shaderFilename = "assets/shaders/uniform_color";
     m_shader = new ShaderProgram(shaderFilename + ".vert", shaderFilename + ".frag");
 
     // create vertex array
