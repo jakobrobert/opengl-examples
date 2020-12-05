@@ -11,7 +11,7 @@ int main()
     try
     {
         RectangleRenderer renderer;
-        Window window("03 - Rectangle", 800, 800, &renderer);
+        Window window("04 - Rectangle with Uniform Color", 800, 800, &renderer);
         window.runEventLoop();
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
