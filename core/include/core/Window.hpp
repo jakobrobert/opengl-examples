@@ -3,12 +3,14 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <string>
+
 #include "Renderer.hpp"
 
 class Window
 {
 public:
-    Window(const char* title, int width, int height, Renderer* renderer);
+    Window(const std::string& title, int width, int height, Renderer* renderer);
     ~Window();
 
     void runEventLoop();

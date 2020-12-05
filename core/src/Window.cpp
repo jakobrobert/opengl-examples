@@ -6,7 +6,7 @@
 static void errorCallback(int error, const char* description);
 static void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 
-Window::Window(const char* title, int width, int height, Renderer* renderer)
+Window::Window(const std::string& title, int width, int height, Renderer* renderer)
     : m_renderer(renderer)
 {
     glfwSetErrorCallback(errorCallback);
@@ -20,7 +20,7 @@ Window::Window(const char* title, int width, int height, Renderer* renderer)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-    m_window = glfwCreateWindow(width, height, title, nullptr, nullptr);
+    m_window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
     if (!m_window) {
         glfwTerminate();
         throw std::runtime_error("Failed to create GLFW window!");
