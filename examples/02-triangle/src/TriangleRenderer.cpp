@@ -42,7 +42,6 @@ bool TriangleRenderer::onInit()
     // unsigned int colorLocation = m_shader->getAttributeLocation("color");
     // m_vertexArray->setVertexAttribute(colorLocation, colorSize, vertexSize, offset);
 
-    // TODO integrate
     VertexLayout layout;
     layout.addAttribute(m_shader->getAttributeLocation("position"), 2);
     layout.addAttribute(m_shader->getAttributeLocation("color"), 3);

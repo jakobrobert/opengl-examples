@@ -18,5 +18,5 @@ public:
     void addAttribute(unsigned int location, unsigned int size);
 private:
     std::vector<Attribute> m_attributes;
-    unsigned int m_vertexSize;
+    unsigned int m_vertexSize = 0;
 };
