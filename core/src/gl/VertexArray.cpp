@@ -22,12 +22,6 @@ void VertexArray::unbind() const
     glBindVertexArray(0);
 }
 
-void VertexArray::setVertexAttribute(unsigned int location, unsigned int attributeSize, unsigned int vertexSize, unsigned int offset) const
-{
-    glEnableVertexAttribArray(location);
-    glVertexAttribPointer(location, attributeSize, GL_FLOAT, GL_FALSE, vertexSize * sizeof(float), (void *)(offset * sizeof(float)));
-}
-
 void VertexArray::setVertexLayout(const VertexLayout& layout) const
 {
     for (const auto& attribute : layout.getAttributes()) {

@@ -28,27 +28,16 @@ bool TriangleRenderer::onInit()
     m_vertexBuffer = new VertexBuffer(vertices, sizeof(vertices));
     m_vertexBuffer->bind();
 
-    // TODO Remove old code
-    // specify vertex layout by setting the vertex attributes
-    // vertex array and vertex buffer need to be bound
-    // vertex attributes are part of the state of the vertex array
-    // unsigned int positionSize = 2;
-    // unsigned int colorSize = 3;
-    // unsigned int vertexSize = positionSize + colorSize;
-    // unsigned int positionLocation = m_shader->getAttributeLocation("position");
-    // unsigned int offset = 0;
-    // m_vertexArray->setVertexAttribute(positionLocation, positionSize, vertexSize, offset);
-    // offset += positionSize;
-    // unsigned int colorLocation = m_shader->getAttributeLocation("color");
-    // m_vertexArray->setVertexAttribute(colorLocation, colorSize, vertexSize, offset);
-
+    // specify vertex layout
     VertexLayout layout;
     layout.addAttribute(m_shader->getAttributeLocation("position"), 2);
     layout.addAttribute(m_shader->getAttributeLocation("color"), 3);
+    // connect vertex layout to vertex array
     m_vertexArray->setVertexLayout(layout);
 
-    m_vertexBuffer->unbind();
+    // unbind objects to leave a clean state
     m_vertexArray->unbind();
+    m_vertexBuffer->unbind();
 
     // black background
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
