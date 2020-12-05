@@ -17,4 +17,6 @@ private:
     VertexArray* m_vertexArray = nullptr;
     VertexBuffer* m_vertexBuffer = nullptr;
     IndexBuffer* m_indexBuffer = nullptr;
+
+    int m_colorUniformLocation = -1;
 };

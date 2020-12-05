@@ -10,6 +10,8 @@ bool RectangleRenderer::onInit()
     // create shader
     std::string shaderFilename = "assets/shaders/uniform_color";
     m_shader = new ShaderProgram(shaderFilename + ".vert", shaderFilename + ".frag");
+    // get uniform locations
+    m_colorUniformLocation = m_shader->getUniformLocation("color");
 
     // create vertex array
     m_vertexArray = new VertexArray();
@@ -18,11 +20,11 @@ bool RectangleRenderer::onInit()
     // create vertex buffer 
     float vertices[] = {
         // counter-clockwise order
-        // position         color
-        -0.5f, -0.5f,   1.0f, 0.0f, 0.0f,   // left bottom, red
-        0.5f, -0.5f,    0.0f, 1.0f, 0.0f,   // right bottom, green
-        0.5f, 0.5f,     0.0f, 0.0f, 1.0f,   // right top, blue
-        -0.5f, 0.5f,    1.0f, 1.0f, 1.0f    // left top, white
+        // position
+        -0.5f, -0.5f,   // left bottom
+        0.5f, -0.5f,    // right bottom
+        0.5f, 0.5f,     // right top
+        -0.5f, 0.5f,    // left top
     };
     m_vertexBuffer = new VertexBuffer(vertices, sizeof(vertices));
     // connect vertex buffer to vertex array
@@ -31,7 +33,6 @@ bool RectangleRenderer::onInit()
     // specify vertex layout
     VertexLayout layout;
     layout.addAttribute(m_shader->getAttributeLocation("position"), 2);
-    layout.addAttribute(m_shader->getAttributeLocation("color"), 3);
     // connect vertex layout to vertex array
     m_vertexArray->setVertexLayout(layout);
 
@@ -74,6 +75,7 @@ void RectangleRenderer::onDraw()
     // binding and unbinding not necessary because they are the same objects each time
     // just to keep it more organized, easier to extend
     m_shader->bind();
+    glUniform3f(m_colorUniformLocation, 1.0f, 0.0f, 0.0f);  // red
     m_vertexArray->bind();
     glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
     m_shader->unbind();
