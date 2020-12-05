@@ -28,17 +28,12 @@ bool RectangleRenderer::onInit()
     // connect vertex buffer to vertex array
     m_vertexBuffer->bind();
 
-    // specify vertex layout by setting the vertex attributes
-    // vertex attributes are part of the state of the vertex array
-    unsigned int positionSize = 2;
-    unsigned int colorSize = 3;
-    unsigned int vertexSize = positionSize + colorSize;
-    unsigned int positionLocation = m_shader->getAttributeLocation("position");
-    unsigned int offset = 0;
-    m_vertexArray->setVertexAttribute(positionLocation, positionSize, vertexSize, offset);
-    offset += positionSize;
-    unsigned int colorLocation = m_shader->getAttributeLocation("color");
-    m_vertexArray->setVertexAttribute(colorLocation, colorSize, vertexSize, offset);
+    // specify vertex layout
+    VertexLayout layout;
+    layout.addAttribute(m_shader->getAttributeLocation("position"), 2);
+    layout.addAttribute(m_shader->getAttributeLocation("color"), 3);
+    // connect vertex layout to vertex array
+    m_vertexArray->setVertexLayout(layout);
 
     // create index buffer
     unsigned int indices[6] {

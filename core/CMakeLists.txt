@@ -5,6 +5,7 @@ add_library(core
     src/gl/VertexArray.cpp
     src/gl/VertexBuffer.cpp
     src/gl/IndexBuffer.cpp
+    src/util/VertexLayout.cpp
 )
 
 # Add include directory to core
