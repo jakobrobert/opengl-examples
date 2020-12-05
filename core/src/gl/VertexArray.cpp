@@ -2,6 +2,8 @@
 
 #include <glad/glad.h>
 
+#include <iostream>
+
 VertexArray::VertexArray()
 {
     glGenVertexArrays(1, &m_id);
@@ -26,4 +28,13 @@ void VertexArray::setVertexAttribute(unsigned int location, unsigned int attribu
 {
     glEnableVertexAttribArray(location);
     glVertexAttribPointer(location, attributeSize, GL_FLOAT, GL_FALSE, vertexSize * sizeof(float), (void *)(offset * sizeof(float)));
+}
+
+void VertexArray::setVertexLayout(const VertexLayout& layout) const
+{
+    std::cout << "vertex size: " << layout.getVertexSize() << std::endl;
+    for (const auto& attribute : layout.getAttributes()) {
+        // TODO implement
+        std::cout << "attribute: " << attribute.location << ", " << attribute.size << ", " << attribute.offset << std::endl;
+    }
 }

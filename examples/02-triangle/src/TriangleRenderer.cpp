@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "core/util/VertexLayout.hpp"
+
 bool TriangleRenderer::onInit()
 {
     // create shader
@@ -38,6 +40,12 @@ bool TriangleRenderer::onInit()
     offset += positionSize;
     unsigned int colorLocation = m_shader->getAttributeLocation("color");
     m_vertexArray->setVertexAttribute(colorLocation, colorSize, vertexSize, offset);
+
+    // TODO integrate
+    VertexLayout layout;
+    layout.addAttribute(positionLocation, positionSize);
+    layout.addAttribute(colorLocation, colorSize);
+    m_vertexArray->setVertexLayout(layout);
 
     m_vertexBuffer->unbind();
     m_vertexArray->unbind();
