@@ -44,6 +44,15 @@ int ShaderProgram::getAttributeLocation(const std::string& name) const
     return location;
 }
 
+int ShaderProgram::getUniformLocation(const std::string& name) const
+{
+    int location = glGetUniformLocation(m_id, name.c_str());
+    if (location == -1) {
+        throw std::runtime_error("Failed to find uniform '" + name + "'!");
+    }
+    return location;
+}
+
 static std::string readSourceFromFile(const std::string& filename)
 {
     std::ifstream file(filename);
