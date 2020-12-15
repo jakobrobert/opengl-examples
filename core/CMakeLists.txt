@@ -14,7 +14,7 @@ target_include_directories(core PUBLIC include)
 
 # Add glad library to core
 add_library(glad vendor/glad/src/glad.c)
-target_include_directories(glad PRIVATE vendor/glad/include)
+target_include_directories(glad PRIVATE vendor/glad/include) # TODO: may propagate to core by "PUBLIC"?
 target_include_directories(core PUBLIC vendor/glad/include)
 target_link_libraries(core PUBLIC glad ${CMAKE_DL_LIBS})
 
@@ -27,3 +27,8 @@ add_subdirectory(vendor/glfw)
 target_include_directories(core PUBLIC vendor/glfw/include)
 target_compile_definitions(core PRIVATE GLFW_INCLUDE_NONE) # prevent glfw from loading gl functions, we use glad for that
 target_link_libraries(core PUBLIC glfw ${glfw_LIBRARIES})
+
+# Add stb_image library to core
+add_library(stb_image vendor/stb_image/src/stb_image.c)
+target_include_directories(stb_image PRIVATE vendor/stb_image/include)
+target_link_libraries(core PRIVATE stb_image)
