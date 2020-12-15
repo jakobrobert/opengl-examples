@@ -5,6 +5,7 @@ add_library(core
     src/gl/VertexArray.cpp
     src/gl/VertexBuffer.cpp
     src/gl/IndexBuffer.cpp
+    src/gl/Texture.cpp
     src/util/VertexLayout.cpp
 )
 
@@ -29,5 +30,5 @@ target_link_libraries(core PUBLIC glfw ${glfw_LIBRARIES})
 
 # Add stb_image library to core
 add_library(stb_image vendor/stb_image/src/stb_image.c)
-target_include_directories(stb_image PRIVATE vendor/stb_image/include)
+target_include_directories(stb_image PUBLIC vendor/stb_image/include)
 target_link_libraries(core PRIVATE stb_image)
