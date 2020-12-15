@@ -14,8 +14,7 @@ target_include_directories(core PUBLIC include)
 
 # Add glad library to core
 add_library(glad vendor/glad/src/glad.c)
-target_include_directories(glad PRIVATE vendor/glad/include) # TODO: may propagate to core by "PUBLIC"?
-target_include_directories(core PUBLIC vendor/glad/include)
+target_include_directories(glad PUBLIC vendor/glad/include)
 target_link_libraries(core PUBLIC glad ${CMAKE_DL_LIBS})
 
 # Add glfw library to core
