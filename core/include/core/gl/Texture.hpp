@@ -14,7 +14,7 @@ public:
     virtual void unbind() const override;
 
     // TODO: other bind is overkill, remove superclass? probably superclass is overkill anyway
-    void bindToSlot(unsigned int slot = 0) const;
+    void bindToUnit(unsigned int unit) const;
 private:
     unsigned int m_id;
 };

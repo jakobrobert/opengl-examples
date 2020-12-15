@@ -5,6 +5,7 @@
 #include "core/gl/VertexArray.hpp"
 #include "core/gl/VertexBuffer.hpp"
 #include "core/gl/IndexBuffer.hpp"
+#include "core/gl/Texture.hpp"
 
 class TextureRenderer : public Renderer
 {
@@ -17,4 +18,7 @@ private:
     VertexArray* m_vertexArray = nullptr;
     VertexBuffer* m_vertexBuffer = nullptr;
     IndexBuffer* m_indexBuffer = nullptr;
+    Texture* m_texture = nullptr;
+
+    int m_textureUniformLocation = -1;
 };

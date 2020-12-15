@@ -48,9 +48,9 @@ void Texture::bind() const
     glBindTexture(GL_TEXTURE_2D, m_id);
 }
 
-void Texture::bindToSlot(unsigned int slot) const
+void Texture::bindToUnit(unsigned int unit) const
 {
-    glActiveTexture(GL_TEXTURE0 + slot);
+    glActiveTexture(GL_TEXTURE0 + unit);
     glBindTexture(GL_TEXTURE_2D, m_id);
 }
 
