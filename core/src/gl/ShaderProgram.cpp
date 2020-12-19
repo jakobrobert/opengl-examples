@@ -25,12 +25,12 @@ ShaderProgram::~ShaderProgram()
     glDeleteProgram(m_id);
 }
 
-void ShaderProgram::bind() const
+void ShaderProgram::use() const
 {
     glUseProgram(m_id);
 }
 
-void ShaderProgram::unbind() const
+void ShaderProgram::unuse() const
 {
     glUseProgram(0);
 }

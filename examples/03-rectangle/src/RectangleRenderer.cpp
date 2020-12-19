@@ -73,9 +73,9 @@ void RectangleRenderer::onDraw()
     // draw the rectangle
     // binding and unbinding not necessary because they are the same objects each time
     // just to keep it more organized, easier to extend
-    m_shader->bind();
+    m_shader->use();
     m_vertexArray->bind();
     glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
-    m_shader->unbind();
+    m_shader->unuse();
     m_vertexArray->unbind();
 }

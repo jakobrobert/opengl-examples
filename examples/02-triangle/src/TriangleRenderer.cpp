@@ -61,9 +61,9 @@ void TriangleRenderer::onDraw()
     // draw the triangle
     // binding and unbinding not necessary because they are the same objects each time
     // just to keep it more organized, easier to extend
-    m_shader->bind();
+    m_shader->use();
     m_vertexArray->bind();
     glDrawArrays(GL_TRIANGLES, 0, 3);
-    m_shader->unbind();
+    m_shader->unuse();
     m_vertexArray->unbind();
 }
