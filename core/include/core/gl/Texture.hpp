@@ -2,18 +2,16 @@
 
 #include <string>
 
-#include "core/gl/OpenGLObject.hpp"
-
-class Texture : public OpenGLObject
+class Texture
 {
 public:
     Texture(const std::string& filename);
-    virtual ~Texture();
+    ~Texture();
 
-    virtual void bind() const override;
-    virtual void unbind() const override;
+    void bind() const;
+    void unbind() const;
 
-    // TODO: other bind is overkill, remove superclass? probably superclass is overkill anyway
+    // TODO: other bind is overkill, remove superclass? probably superclass is overkill 
     void bindToUnit(unsigned int unit) const;
 private:
     unsigned int m_id;

@@ -1,15 +1,13 @@
 #pragma once
 
-#include "core/gl/OpenGLObject.hpp"
-
-class VertexBuffer : public OpenGLObject
+class VertexBuffer
 {
 public:
     VertexBuffer(const float* data, unsigned int size);
-    virtual ~VertexBuffer();
+    ~VertexBuffer();
 
-    virtual void bind() const override;
-    virtual void unbind() const override;
+    void bind() const;
+    void unbind() const;
 private:
     unsigned int m_id;
 };

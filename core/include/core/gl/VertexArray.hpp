@@ -1,16 +1,15 @@
 #pragma once
 
-#include "core/gl/OpenGLObject.hpp"
 #include "core/util/VertexLayout.hpp"
 
-class VertexArray : public OpenGLObject
+class VertexArray
 {
 public:
     VertexArray();
-    virtual ~VertexArray();
+    ~VertexArray();
 
-    virtual void bind() const override;
-    virtual void unbind() const override;
+    void bind() const;
+    void unbind() const;
 
     void setVertexLayout(const VertexLayout& layout) const;
 private:

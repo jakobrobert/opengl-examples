@@ -2,16 +2,14 @@
 
 #include <string>
 
-#include "core/gl/OpenGLObject.hpp"
-
-class ShaderProgram : public OpenGLObject
+class ShaderProgram
 {
 public:
     ShaderProgram(const std::string &vertexShaderFilename, const std::string &fragmentShaderFilename);
-    virtual ~ShaderProgram();
+    ~ShaderProgram();
 
-    virtual void bind() const override;
-    virtual void unbind() const override;
+    void bind() const;
+    void unbind() const;
 
     int getAttributeLocation(const std::string& name) const;
     int getUniformLocation(const std::string& name) const;

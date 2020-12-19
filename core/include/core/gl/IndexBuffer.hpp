@@ -1,17 +1,15 @@
 #pragma once
 
-#include "core/gl/OpenGLObject.hpp"
-
-class IndexBuffer : public OpenGLObject
+class IndexBuffer
 {
 public:
     IndexBuffer(const unsigned int* data, unsigned int count);
-    virtual ~IndexBuffer();
+    ~IndexBuffer();
 
     unsigned int getCount() const { return m_count; }
 
-    virtual void bind() const override;
-    virtual void unbind() const override;
+    void bind() const;
+    void unbind() const;
 private:
     unsigned int m_id;
     unsigned int m_count;
