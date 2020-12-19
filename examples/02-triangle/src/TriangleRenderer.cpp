@@ -30,8 +30,8 @@ bool TriangleRenderer::onInit()
 
     // specify vertex layout
     VertexLayout layout;
-    layout.addAttribute(m_shader->getAttributeLocation("position"), 2);
-    layout.addAttribute(m_shader->getAttributeLocation("color"), 3);
+    layout.addAttribute(m_shader->getAttributeLocation("a_position"), 2);
+    layout.addAttribute(m_shader->getAttributeLocation("a_color"), 3);
     // connect vertex layout to vertex array
     m_vertexArray->setVertexLayout(layout);
 

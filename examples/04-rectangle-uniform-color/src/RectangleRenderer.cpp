@@ -11,7 +11,7 @@ bool RectangleRenderer::onInit()
     std::string shaderFilename = "assets/shaders/uniform_color";
     m_shader = new ShaderProgram(shaderFilename + ".vert", shaderFilename + ".frag");
     // get uniform locations
-    m_colorUniformLocation = m_shader->getUniformLocation("color");
+    m_colorUniformLocation = m_shader->getUniformLocation("u_color");
 
     // create vertex array
     m_vertexArray = new VertexArray();
@@ -32,7 +32,7 @@ bool RectangleRenderer::onInit()
 
     // specify vertex layout
     VertexLayout layout;
-    layout.addAttribute(m_shader->getAttributeLocation("position"), 2);
+    layout.addAttribute(m_shader->getAttributeLocation("a_position"), 2);
     // connect vertex layout to vertex array
     m_vertexArray->setVertexLayout(layout);
 
