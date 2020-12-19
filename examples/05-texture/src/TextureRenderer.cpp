@@ -54,7 +54,7 @@ bool TextureRenderer::onInit()
     m_indexBuffer->unbind();
 
     // create texture
-    m_texture = new Texture("assets/textures/brick_wall.jpg");
+    m_texture = new Texture("assets/textures/awesome_face.png");
 
     // black background
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
