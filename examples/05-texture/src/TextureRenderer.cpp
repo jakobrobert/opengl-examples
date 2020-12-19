@@ -86,10 +86,10 @@ void TextureRenderer::onDraw()
     // just to keep it more organized, easier to extend
     m_shader->use();
     m_vertexArray->bind();
-    m_texture->bindToUnit(0);
+    m_texture->bind(0);
     glUniform1i(m_textureUniformLocation, 0);
     glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
     m_shader->unuse();
     m_vertexArray->unbind();
-    m_texture->bind();
+    m_texture->unbind();
 }
