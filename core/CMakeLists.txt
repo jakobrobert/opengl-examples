@@ -7,6 +7,7 @@ add_library(core
     src/gl/IndexBuffer.cpp
     src/gl/Texture.cpp
     src/util/VertexLayout.cpp
+    src/math/Transform2D.cpp
 )
 
 # Add include directory to core
