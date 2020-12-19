@@ -59,6 +59,10 @@ bool TextureRenderer::onInit()
     // black background
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
+    // enable alpha blending for transparency
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     return true;
 }
 
