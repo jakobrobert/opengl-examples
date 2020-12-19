@@ -5,7 +5,7 @@
 
 #include <string>
 
-#include "Renderer.hpp"
+#include <core/Renderer.hpp>
 
 class Window
 {

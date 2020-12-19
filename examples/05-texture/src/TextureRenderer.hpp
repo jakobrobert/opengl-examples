@@ -1,11 +1,11 @@
 #pragma once
 
-#include "core/Renderer.hpp"
-#include "core/gl/ShaderProgram.hpp"
-#include "core/gl/VertexArray.hpp"
-#include "core/gl/VertexBuffer.hpp"
-#include "core/gl/IndexBuffer.hpp"
-#include "core/gl/Texture.hpp"
+#include <core/Renderer.hpp>
+#include <core/gl/ShaderProgram.hpp>
+#include <core/gl/VertexArray.hpp>
+#include <core/gl/VertexBuffer.hpp>
+#include <core/gl/IndexBuffer.hpp>
+#include <core/gl/Texture.hpp>
 
 class TextureRenderer : public Renderer
 {

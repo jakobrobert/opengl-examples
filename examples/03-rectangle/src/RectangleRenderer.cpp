@@ -1,6 +1,7 @@
 #include "RectangleRenderer.hpp"
 
 #include <glad/glad.h>
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -22,7 +23,7 @@ bool RectangleRenderer::onInit()
         -0.5f, -0.5f,   1.0f, 0.0f, 0.0f,   // left bottom, red
         0.5f, -0.5f,    0.0f, 1.0f, 0.0f,   // right bottom, green
         0.5f, 0.5f,     0.0f, 0.0f, 1.0f,   // right top, blue
-        -0.5f, 0.5f,    1.0f, 1.0f, 1.0f    // left top, white
+        -0.5f, 0.5f,    1.0f, 1.0f, 0.0f    // left top, yellow
     };
     m_vertexBuffer = new VertexBuffer(vertices, sizeof(vertices));
     // connect vertex buffer to vertex array
@@ -30,8 +31,8 @@ bool RectangleRenderer::onInit()
 
     // specify vertex layout
     VertexLayout layout;
-    layout.addAttribute(m_shader->getAttributeLocation("position"), 2);
-    layout.addAttribute(m_shader->getAttributeLocation("color"), 3);
+    layout.addAttribute(m_shader->getAttributeLocation("a_position"), 2);
+    layout.addAttribute(m_shader->getAttributeLocation("a_color"), 3);
     // connect vertex layout to vertex array
     m_vertexArray->setVertexLayout(layout);
 
@@ -73,9 +74,9 @@ void RectangleRenderer::onDraw()
     // draw the rectangle
     // binding and unbinding not necessary because they are the same objects each time
     // just to keep it more organized, easier to extend
-    m_shader->bind();
+    m_shader->use();
     m_vertexArray->bind();
     glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
-    m_shader->unbind();
+    m_shader->unuse();
     m_vertexArray->unbind();
 }

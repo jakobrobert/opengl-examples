@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core/Renderer.hpp"
+#include <core/Renderer.hpp>
 
 class EmptyRenderer : public Renderer
 {

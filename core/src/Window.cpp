@@ -1,10 +1,10 @@
-#include "core/Window.hpp"
+#include <core/Window.hpp>
 
 #include <iostream>
 #include <stdexcept>
 
 static void errorCallback(int error, const char* description);
-static void framebuffer_size_callback(GLFWwindow *window, int width, int height);
+static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 Window::Window(const std::string& title, int width, int height, Renderer* renderer)
     : m_renderer(renderer)
@@ -65,7 +65,7 @@ static void errorCallback(int error, const char *description)
     std::cout << "GLFW error " << error << ": " << description << std::endl;
 }
 
-static void framebuffer_size_callback(GLFWwindow *window, int width, int height)
+static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
 }

@@ -1,6 +1,7 @@
 #pragma once
 
-class Renderer {
+class Renderer
+{
 public:
     virtual bool onInit() = 0;
     virtual void onDestroy() = 0;

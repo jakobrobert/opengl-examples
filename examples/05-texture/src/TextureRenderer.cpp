@@ -1,6 +1,7 @@
 #include "TextureRenderer.hpp"
 
 #include <glad/glad.h>
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -21,10 +22,10 @@ bool TextureRenderer::onInit()
     float vertices[] = {
         // counter-clockwise order
         // position         color           texture coord
-        -0.5f, -0.5f,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f,   // left bottom, red
-        0.5f, -0.5f,    0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // right bottom, green
-        0.5f, 0.5f,     0.0f, 0.0f, 1.0f,   1.0f, 1.0f,   // right top, blue
-        -0.5f, 0.5f,    1.0f, 1.0f, 0.0f,   0.0f, 1.0f   // left top, yellow
+        -0.5f, -0.5f,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f, // left bottom, red
+        0.5f, -0.5f,    0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // right bottom, green
+        0.5f, 0.5f,     0.0f, 0.0f, 1.0f,   1.0f, 1.0f, // right top, blue
+        -0.5f, 0.5f,    1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // left top, yellow
     };
     m_vertexBuffer = new VertexBuffer(vertices, sizeof(vertices));
     // connect vertex buffer to vertex array
@@ -84,12 +85,12 @@ void TextureRenderer::onDraw()
     // draw the textured rectangle
     // binding and unbinding not necessary because they are the same objects each time
     // just to keep it more organized, easier to extend
-    m_shader->bind();
+    m_shader->use();
     m_vertexArray->bind();
-    m_texture->bindToUnit(0);
+    m_texture->bind(0);
     glUniform1i(m_textureUniformLocation, 0);
     glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
-    m_shader->unbind();
+    m_shader->unuse();
     m_vertexArray->unbind();
-    m_texture->bind();
+    m_texture->unbind();
 }

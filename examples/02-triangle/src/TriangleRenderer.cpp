@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "core/util/VertexLayout.hpp"
+#include <core/util/VertexLayout.hpp>
 
 bool TriangleRenderer::onInit()
 {
@@ -30,8 +30,8 @@ bool TriangleRenderer::onInit()
 
     // specify vertex layout
     VertexLayout layout;
-    layout.addAttribute(m_shader->getAttributeLocation("position"), 2);
-    layout.addAttribute(m_shader->getAttributeLocation("color"), 3);
+    layout.addAttribute(m_shader->getAttributeLocation("a_position"), 2);
+    layout.addAttribute(m_shader->getAttributeLocation("a_color"), 3);
     // connect vertex layout to vertex array
     m_vertexArray->setVertexLayout(layout);
 
@@ -61,9 +61,9 @@ void TriangleRenderer::onDraw()
     // draw the triangle
     // binding and unbinding not necessary because they are the same objects each time
     // just to keep it more organized, easier to extend
-    m_shader->bind();
+    m_shader->use();
     m_vertexArray->bind();
     glDrawArrays(GL_TRIANGLES, 0, 3);
-    m_shader->unbind();
+    m_shader->unuse();
     m_vertexArray->unbind();
 }

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "core/Window.hpp"
+#include <core/Window.hpp>
 
 #include "EmptyRenderer.hpp"
 

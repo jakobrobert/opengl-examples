@@ -1,10 +1,10 @@
 #pragma once
 
-#include "core/Renderer.hpp"
-#include "core/gl/ShaderProgram.hpp"
-#include "core/gl/VertexArray.hpp"
-#include "core/gl/VertexBuffer.hpp"
-#include "core/gl/IndexBuffer.hpp"
+#include <core/Renderer.hpp>
+#include <core/gl/ShaderProgram.hpp>
+#include <core/gl/VertexArray.hpp>
+#include <core/gl/VertexBuffer.hpp>
+#include <core/gl/IndexBuffer.hpp>
 
 class RectangleRenderer : public Renderer
 {

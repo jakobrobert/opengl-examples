@@ -1,6 +1,7 @@
 #include "RectangleRenderer.hpp"
 
 #include <glad/glad.h>
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -11,7 +12,7 @@ bool RectangleRenderer::onInit()
     std::string shaderFilename = "assets/shaders/uniform_color";
     m_shader = new ShaderProgram(shaderFilename + ".vert", shaderFilename + ".frag");
     // get uniform locations
-    m_colorUniformLocation = m_shader->getUniformLocation("color");
+    m_colorUniformLocation = m_shader->getUniformLocation("u_color");
 
     // create vertex array
     m_vertexArray = new VertexArray();
@@ -32,7 +33,7 @@ bool RectangleRenderer::onInit()
 
     // specify vertex layout
     VertexLayout layout;
-    layout.addAttribute(m_shader->getAttributeLocation("position"), 2);
+    layout.addAttribute(m_shader->getAttributeLocation("a_position"), 2);
     // connect vertex layout to vertex array
     m_vertexArray->setVertexLayout(layout);
 
@@ -74,10 +75,10 @@ void RectangleRenderer::onDraw()
     // draw the rectangle
     // binding and unbinding not necessary because they are the same objects each time
     // just to keep it more organized, easier to extend
-    m_shader->bind();
+    m_shader->use();
     glUniform3f(m_colorUniformLocation, 1.0f, 0.0f, 0.0f);  // red
     m_vertexArray->bind();
     glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
-    m_shader->unbind();
+    m_shader->unuse();
     m_vertexArray->unbind();
 }
