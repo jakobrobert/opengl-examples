@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-#include "core/Window.hpp"
+#include <core/Window.hpp>
 
 #include "TriangleRenderer.hpp"
 

@@ -1,6 +1,7 @@
 #include "RectangleRenderer.hpp"
 
 #include <glad/glad.h>
+
 #include <iostream>
 #include <string>
 #include <vector>

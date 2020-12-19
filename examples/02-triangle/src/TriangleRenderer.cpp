@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "core/util/VertexLayout.hpp"
+#include <core/util/VertexLayout.hpp>
 
 bool TriangleRenderer::onInit()
 {

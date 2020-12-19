@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core/util/VertexLayout.hpp"
+#include <core/util/VertexLayout.hpp>
 
 class VertexArray
 {
