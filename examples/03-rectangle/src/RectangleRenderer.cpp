@@ -22,7 +22,7 @@ bool RectangleRenderer::onInit()
         -0.5f, -0.5f,   1.0f, 0.0f, 0.0f,   // left bottom, red
         0.5f, -0.5f,    0.0f, 1.0f, 0.0f,   // right bottom, green
         0.5f, 0.5f,     0.0f, 0.0f, 1.0f,   // right top, blue
-        -0.5f, 0.5f,    1.0f, 1.0f, 1.0f    // left top, white
+        -0.5f, 0.5f,    1.0f, 1.0f, 0.0f    // left top, yellow
     };
     m_vertexBuffer = new VertexBuffer(vertices, sizeof(vertices));
     // connect vertex buffer to vertex array
