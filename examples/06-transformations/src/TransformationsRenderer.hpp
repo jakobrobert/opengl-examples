@@ -20,5 +20,6 @@ private:
     IndexBuffer* m_indexBuffer = nullptr;
     Texture* m_texture = nullptr;
 
+    int m_modelMatrixUniformLocation = -1;
     int m_textureUniformLocation = -1;
 };

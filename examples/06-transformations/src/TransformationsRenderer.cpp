@@ -2,6 +2,8 @@
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <iostream>
 #include <string>
@@ -13,6 +15,7 @@ bool TransformationsRenderer::onInit()
     std::string shaderFilename = "assets/shaders/texture_and_vertex_color";
     m_shader = new ShaderProgram(shaderFilename + ".vert", shaderFilename + ".frag");
     // get uniform locations
+    m_modelMatrixUniformLocation = m_shader->getUniformLocation("u_modelMatrix");
     m_textureUniformLocation = m_shader->getUniformLocation("u_texture");
 
     // create vertex array
@@ -90,6 +93,9 @@ void TransformationsRenderer::onDraw()
     m_vertexArray->bind();
     m_texture->bind(0);
     glUniform1i(m_textureUniformLocation, 0);
+    // TODO: temporary test code
+    glm::mat4 modelMatrix(1.0f);
+    glUniformMatrix4fv(m_modelMatrixUniformLocation, 1, false, glm::value_ptr(modelMatrix));
     glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
     m_shader->unuse();
     m_vertexArray->unbind();
