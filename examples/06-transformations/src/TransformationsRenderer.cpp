@@ -93,8 +93,11 @@ void TransformationsRenderer::onDraw()
     m_vertexArray->bind();
     m_texture->bind(0);
     glUniform1i(m_textureUniformLocation, 0);
-    // TODO: temporary test code
-    glm::mat4 modelMatrix(1.0f);
+    // TODO: temporary test code, replace by cool animation
+    m_transform.setTranslation(glm::vec2(-0.5f, -0.5f));
+    m_transform.setScale(glm::vec2(1.0f, 0.5f));
+    m_transform.setRotation(glm::radians(30.0f));
+    glm::mat4 modelMatrix = m_transform.getModelMatrix();
     glUniformMatrix4fv(m_modelMatrixUniformLocation, 1, false, glm::value_ptr(modelMatrix));
     glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
     m_shader->unuse();

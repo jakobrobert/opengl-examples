@@ -6,6 +6,7 @@
 #include <core/gl/VertexBuffer.hpp>
 #include <core/gl/IndexBuffer.hpp>
 #include <core/gl/Texture.hpp>
+#include <core/math/Transform2D.hpp>
 
 class TransformationsRenderer : public Renderer
 {
@@ -19,6 +20,7 @@ private:
     VertexBuffer* m_vertexBuffer = nullptr;
     IndexBuffer* m_indexBuffer = nullptr;
     Texture* m_texture = nullptr;
+    Transform2D m_transform;
 
     int m_modelMatrixUniformLocation = -1;
     int m_textureUniformLocation = -1;
