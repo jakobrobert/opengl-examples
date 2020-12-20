@@ -6,7 +6,7 @@ add_library(core
     src/gl/VertexBuffer.cpp
     src/gl/IndexBuffer.cpp
     src/gl/Texture.cpp
-    src/util/VertexLayout.cpp
+    src/gl/VertexLayout.cpp
     src/math/Transform2D.cpp
 )
 

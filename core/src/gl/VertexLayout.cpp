@@ -1,4 +1,4 @@
-#include <core/util/VertexLayout.hpp>
+#include <core/gl/VertexLayout.hpp>
 
 void VertexLayout::addAttribute(unsigned int location, unsigned int size)
 {

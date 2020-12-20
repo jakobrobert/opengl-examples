@@ -1,11 +1,10 @@
 #include "TriangleRenderer.hpp"
 
 #include <glad/glad.h>
+
 #include <iostream>
 #include <string>
 #include <vector>
-
-#include <core/util/VertexLayout.hpp>
 
 bool TriangleRenderer::onInit()
 {
