@@ -6,7 +6,7 @@
 #include <core/gl/VertexBuffer.hpp>
 #include <core/gl/IndexBuffer.hpp>
 #include <core/gl/Texture.hpp>
-#include <core/math/Transform2D.hpp>
+#include <core/Transform2D.hpp>
 
 class TransformationsRenderer : public Renderer
 {
