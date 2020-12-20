@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cmath>
 
 bool TransformationsRenderer::onInit()
 {
@@ -83,7 +84,18 @@ void TransformationsRenderer::onDestroy()
 
 void TransformationsRenderer::onUpdate(double time)
 {
-    std::cout << "time: " << time << std::endl;
+    glm::vec2 translation;
+    translation.x = 0.75 * (float)(std::cos(3.0 * time));
+    translation.y = 0.75 * (float)(std::sin(2.0 * time));
+    m_transform.setTranslation(translation);
+
+    glm::vec2 scale;
+    scale.x = (float)(std::pow(2.0, std::cos(3.0 * time)));
+    scale.y = (float)(std::pow(2.0, std::sin(2.0 * time)));
+    m_transform.setScale(scale);
+
+    float rotation = (float)(2.0 * time);
+    m_transform.setRotation(rotation);
 }
 
 void TransformationsRenderer::onDraw()
@@ -98,10 +110,6 @@ void TransformationsRenderer::onDraw()
     m_vertexArray->bind();
     m_texture->bind(0);
     glUniform1i(m_textureUniformLocation, 0);
-    // TODO: temporary test code, replace by cool animation
-    m_transform.setTranslation(glm::vec2(-0.5f, -0.5f));
-    m_transform.setScale(glm::vec2(1.0f, 0.5f));
-    m_transform.setRotation(glm::radians(30.0f));
     glm::mat4 modelMatrix = m_transform.getModelMatrix();
     glUniformMatrix4fv(m_modelMatrixUniformLocation, 1, false, glm::value_ptr(modelMatrix));
     glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
