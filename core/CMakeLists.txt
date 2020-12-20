@@ -7,6 +7,7 @@ add_library(core
     src/gl/IndexBuffer.cpp
     src/gl/Texture.cpp
     src/util/VertexLayout.cpp
+    src/math/Transform2D.cpp
 )
 
 # Add include directory to core
@@ -27,6 +28,11 @@ add_subdirectory(vendor/glfw)
 target_include_directories(core PUBLIC vendor/glfw/include)
 target_compile_definitions(core PRIVATE GLFW_INCLUDE_NONE) # prevent glfw from loading gl functions, we use glad for that
 target_link_libraries(core PUBLIC glfw ${glfw_LIBRARIES})
+
+# Add glm library to core
+add_subdirectory(vendor/glm)
+target_include_directories(core PUBLIC vendor/glm)
+target_link_libraries(core PRIVATE glm)
 
 # Add stb_image library to core
 add_library(stb_image vendor/stb_image/src/stb_image.c)

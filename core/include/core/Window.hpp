@@ -13,7 +13,7 @@ public:
     Window(const std::string& title, int width, int height, Renderer* renderer);
     ~Window();
 
-    void runEventLoop();
+    void runRenderLoop();
 private:
     GLFWwindow* m_window = nullptr;
     Renderer* m_renderer = nullptr;

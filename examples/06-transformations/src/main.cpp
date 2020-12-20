@@ -1,14 +1,17 @@
 #include <iostream>
+#include <string>
+#include <vector>
 
 #include <core/Window.hpp>
 
-#include "EmptyRenderer.hpp"
+#include "TransformationsRenderer.hpp"
 
 int main()
 {
-    try {
-        EmptyRenderer renderer;
-        Window window("01 - Window", 800, 800, &renderer);
+    try
+    {
+        TransformationsRenderer renderer;
+        Window window("06 - Transformations", 800, 800, &renderer);
         window.runRenderLoop();
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;

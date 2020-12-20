@@ -50,10 +50,11 @@ Window::~Window()
     glfwTerminate();
 }
 
-void Window::runEventLoop()
+void Window::runRenderLoop()
 {
-    while (!glfwWindowShouldClose(m_window))
-    {
+    while (!glfwWindowShouldClose(m_window)) {
+        double time = glfwGetTime();
+        m_renderer->onUpdate(time);
         m_renderer->onDraw();
         glfwSwapBuffers(m_window);
         glfwPollEvents();

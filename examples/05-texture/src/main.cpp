@@ -12,7 +12,7 @@ int main()
     {
         TextureRenderer renderer;
         Window window("05 - Texture", 800, 800, &renderer);
-        window.runEventLoop();
+        window.runRenderLoop();
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
         return 1;
