@@ -81,6 +81,11 @@ void TransformationsRenderer::onDestroy()
     delete m_texture;
 }
 
+void TransformationsRenderer::onUpdate(double time)
+{
+    std::cout << "time: " << time << std::endl;
+}
+
 void TransformationsRenderer::onDraw()
 {
     // clear screen

@@ -9,7 +9,7 @@ int main()
     try {
         EmptyRenderer renderer;
         Window window("01 - Window", 800, 800, &renderer);
-        window.runEventLoop();
+        window.runRenderLoop();
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
         return 1;

@@ -12,7 +12,7 @@ int main()
     {
         RectangleRenderer renderer;
         Window window("03 - Rectangle", 800, 800, &renderer);
-        window.runEventLoop();
+        window.runRenderLoop();
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
         return 1;

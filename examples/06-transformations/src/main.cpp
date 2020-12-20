@@ -12,7 +12,7 @@ int main()
     {
         TransformationsRenderer renderer;
         Window window("06 - Transformations", 800, 800, &renderer);
-        window.runEventLoop();
+        window.runRenderLoop();
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
         return 1;
