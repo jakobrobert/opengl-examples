@@ -82,19 +82,19 @@ void TransformationsRenderer::onDestroy()
     delete m_texture;
 }
 
-void TransformationsRenderer::onUpdate(double time)
+void TransformationsRenderer::onUpdate(float time)
 {
     glm::vec2 translation;
-    translation.x = 0.75 * (float)(std::cos(3.0 * time));
-    translation.y = 0.75 * (float)(std::sin(2.0 * time));
+    translation.x = 0.75f * std::cos(3.0f * time);
+    translation.y = 0.75f * std::sin(2.0f * time);
     m_transform.setTranslation(translation);
 
     glm::vec2 scale;
-    scale.x = (float)(std::pow(2.0, std::cos(3.0 * time)));
-    scale.y = (float)(std::pow(2.0, std::sin(2.0 * time)));
+    scale.x = std::pow(2.0f, std::cos(3.0f * time));
+    scale.y = std::pow(2.0f, std::sin(2.0f * time));
     m_transform.setScale(scale);
 
-    float rotation = (float)(2.0 * time);
+    float rotation = 2.0f * time;
     m_transform.setRotation(rotation);
 }
 

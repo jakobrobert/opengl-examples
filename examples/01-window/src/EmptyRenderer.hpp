@@ -7,6 +7,6 @@ class EmptyRenderer : public Renderer
 public:
     virtual bool onInit() override;
     virtual void onDestroy() override {}
-    virtual void onUpdate(double time) override {}
+    virtual void onUpdate(float time) override {}
     virtual void onDraw() override;
 };

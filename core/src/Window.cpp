@@ -53,7 +53,7 @@ Window::~Window()
 void Window::runRenderLoop()
 {
     while (!glfwWindowShouldClose(m_window)) {
-        double time = glfwGetTime();
+        float time = (float)(glfwGetTime());
         m_renderer->onUpdate(time);
         m_renderer->onDraw();
         glfwSwapBuffers(m_window);
