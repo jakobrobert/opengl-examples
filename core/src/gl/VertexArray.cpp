@@ -21,16 +21,3 @@ void VertexArray::unbind() const
 {
     glBindVertexArray(0);
 }
-
-void VertexArray::setVertexLayout(const VertexLayout& layout) const
-{
-    for (const auto& attribute : layout.getAttributes()) {
-        glEnableVertexAttribArray(attribute.location);
-        glVertexAttribPointer(
-            attribute.location, attribute.size,
-            GL_FLOAT, GL_FALSE,
-            layout.getVertexSize() * sizeof(float),
-            (void*)(attribute.offset * sizeof(float))
-        );
-    }
-}

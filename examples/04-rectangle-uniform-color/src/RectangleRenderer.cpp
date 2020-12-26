@@ -35,7 +35,7 @@ bool RectangleRenderer::onInit()
     VertexLayout layout;
     layout.addAttribute(m_shader->getAttributeLocation("a_position"), 2);
     // connect vertex layout to vertex array
-    m_vertexArray->setVertexLayout(layout);
+    layout.enableAttributes();
 
     // create index buffer
     unsigned int indices[6] {

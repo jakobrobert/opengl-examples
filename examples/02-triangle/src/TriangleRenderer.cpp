@@ -25,14 +25,14 @@ bool TriangleRenderer::onInit()
         0.0f, 0.5f,     0.0, 0.0f, 1.0f     // center top, blue
     };
     m_vertexBuffer = new VertexBuffer(vertices, sizeof(vertices));
+    // connect vertex buffer to vertex array
     m_vertexBuffer->bind();
 
     // specify vertex layout
     VertexLayout layout;
     layout.addAttribute(m_shader->getAttributeLocation("a_position"), 2);
     layout.addAttribute(m_shader->getAttributeLocation("a_color"), 3);
-    // connect vertex layout to vertex array
-    m_vertexArray->setVertexLayout(layout);
+    layout.enableAttributes();
 
     // unbind objects to leave a clean state
     m_vertexArray->unbind();

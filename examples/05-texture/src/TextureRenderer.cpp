@@ -37,7 +37,7 @@ bool TextureRenderer::onInit()
     layout.addAttribute(m_shader->getAttributeLocation("a_color"), 3);
     layout.addAttribute(m_shader->getAttributeLocation("a_textureCoord"), 2);
     // connect vertex layout to vertex array
-    m_vertexArray->setVertexLayout(layout);
+    layout.enableAttributes();
 
     // create index buffer
     unsigned int indices[6] {
