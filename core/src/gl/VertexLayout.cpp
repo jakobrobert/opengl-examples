@@ -2,13 +2,13 @@
 
 #include <glad/glad.h>
 
-void VertexLayout::addAttribute(unsigned int location, unsigned int size)
+void VertexLayout::addAttribute(unsigned int location, unsigned int componentCount)
 {
     VertexLayout::Attribute attribute;
     attribute.location = location;
-    attribute.size = size;
-    attribute.offset = m_vertexSize;
-    m_vertexSize += size;
+    attribute.componentCount = componentCount;
+    attribute.offsetInBytes = m_vertexSizeInBytes;
+    m_vertexSizeInBytes += componentCount * sizeof(float);
 
     m_attributes.push_back(attribute);
 }
@@ -18,9 +18,8 @@ void VertexLayout::enableAttributes() const
     for (const auto& attribute : m_attributes) {
         glEnableVertexAttribArray(attribute.location);
         glVertexAttribPointer(
-            attribute.location, attribute.size, GL_FLOAT, false,
-            m_vertexSize * sizeof(float),
-            (void*)(attribute.offset * sizeof(float))
+            attribute.location, attribute.componentCount, GL_FLOAT, false,
+            m_vertexSizeInBytes, (void*)(attribute.offsetInBytes)
         );
     }
 }
