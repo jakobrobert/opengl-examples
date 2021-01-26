@@ -24,5 +24,6 @@ private:
     Transform2D m_transform;
 
     int m_modelMatrixUniformLocation = -1;
+    int m_projectionMatrixUniformLocation = -1;
     int m_textureUniformLocation = -1;
 };

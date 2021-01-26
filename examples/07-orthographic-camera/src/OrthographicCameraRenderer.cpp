@@ -17,6 +17,7 @@ bool OrthographicCameraRenderer::onInit()
     m_shader = new ShaderProgram(shaderFilename + ".vert", shaderFilename + ".frag");
     // get uniform locations
     m_modelMatrixUniformLocation = m_shader->getUniformLocation("u_modelMatrix");
+    m_projectionMatrixUniformLocation = m_shader->getUniformLocation("u_projectionMatrix");
     m_textureUniformLocation = m_shader->getUniformLocation("u_texture");
 
     // create vertex array
@@ -106,13 +107,20 @@ void OrthographicCameraRenderer::onDraw()
     // draw the textured rectangle
     // binding and unbinding not necessary because they are the same objects each time
     // just to keep it more organized, easier to extend
+
     m_shader->use();
     m_vertexArray->bind();
     m_texture->bind(0);
+
     glUniform1i(m_textureUniformLocation, 0);
     glm::mat4 modelMatrix = m_transform.getModelMatrix();
     glUniformMatrix4fv(m_modelMatrixUniformLocation, 1, false, glm::value_ptr(modelMatrix));
+    // TODO: identity matrix for testing, replace by proper matrix
+    glm::mat4 projectionMatrix = glm::mat4(1.0);
+    glUniformMatrix4fv(m_projectionMatrixUniformLocation, 1, false, glm::value_ptr(projectionMatrix));
+
     glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
+
     m_shader->unuse();
     m_vertexArray->unbind();
     m_texture->unbind();
