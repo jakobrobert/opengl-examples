@@ -89,6 +89,12 @@ void OrthographicCameraRenderer::onDestroy()
     delete m_texture;
 }
 
+void OrthographicCameraRenderer::onResize(int width, int height)
+{
+    // TODO update camera here
+    std::cout << "onResize: " << width << ", " << height << std::endl;
+}
+
 void OrthographicCameraRenderer::onUpdate(float time)
 {
     glm::vec2 translation;

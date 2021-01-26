@@ -26,6 +26,10 @@ Window::Window(const std::string& title, int width, int height, Renderer* render
         throw std::runtime_error("Failed to create GLFW window!");
     }
 
+    // a trick to get access to the renderer in callbacks
+    // cannot pass member function as callback
+    glfwSetWindowUserPointer(m_window, m_renderer);
+
     glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
 
     glfwMakeContextCurrent(m_window);
@@ -68,5 +72,8 @@ static void errorCallback(int error, const char *description)
 
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
+    // TODO move glViewport into renderers
     glViewport(0, 0, width, height);
+    Renderer* renderer = (Renderer*)glfwGetWindowUserPointer(window);
+    renderer->onResize(width, height);
 }
