@@ -66,6 +66,11 @@ void RectangleRenderer::onDestroy()
     delete m_indexBuffer;
 }
 
+void RectangleRenderer::onResize(int width, int height)
+{
+    glViewport(0, 0, width, height);
+}
+
 void RectangleRenderer::onDraw()
 {
     // clear screen

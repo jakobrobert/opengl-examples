@@ -77,6 +77,11 @@ void TextureRenderer::onDestroy()
     delete m_texture;
 }
 
+void TextureRenderer::onResize(int width, int height)
+{
+    glViewport(0, 0, width, height);
+}
+
 void TextureRenderer::onDraw()
 {
     // clear screen

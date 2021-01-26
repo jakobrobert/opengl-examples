@@ -91,6 +91,7 @@ void OrthographicCameraRenderer::onDestroy()
 
 void OrthographicCameraRenderer::onResize(int width, int height)
 {
+    glViewport(0, 0, width, height);
     // TODO update camera here
     std::cout << "onResize: " << width << ", " << height << std::endl;
 }

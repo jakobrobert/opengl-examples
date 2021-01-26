@@ -72,8 +72,6 @@ static void errorCallback(int error, const char *description)
 
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    // TODO move glViewport into renderers
-    glViewport(0, 0, width, height);
     Renderer* renderer = (Renderer*)glfwGetWindowUserPointer(window);
     renderer->onResize(width, height);
 }

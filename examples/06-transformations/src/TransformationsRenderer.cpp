@@ -82,6 +82,11 @@ void TransformationsRenderer::onDestroy()
     delete m_texture;
 }
 
+void TransformationsRenderer::onResize(int width, int height)
+{
+    glViewport(0, 0, width, height);
+}
+
 void TransformationsRenderer::onUpdate(float time)
 {
     glm::vec2 translation;
