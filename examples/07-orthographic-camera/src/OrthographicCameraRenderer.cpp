@@ -10,6 +10,12 @@
 #include <vector>
 #include <cmath>
 
+OrthographicCameraRenderer::OrthographicCameraRenderer()
+:   m_camera(-1.0f, 1.0f, -1.0f, 1.0f)  // TODO just testing, update according to window size
+{
+
+}
+
 bool OrthographicCameraRenderer::onInit()
 {
     // create shader
