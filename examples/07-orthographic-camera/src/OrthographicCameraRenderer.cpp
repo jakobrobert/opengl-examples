@@ -10,12 +10,6 @@
 #include <vector>
 #include <cmath>
 
-OrthographicCameraRenderer::OrthographicCameraRenderer()
-:   m_camera(-1.0f, 1.0f, -1.0f, 1.0f)  // TODO just testing, update according to window size
-{
-
-}
-
 bool OrthographicCameraRenderer::onInit()
 {
     // create shader
@@ -92,8 +86,9 @@ void OrthographicCameraRenderer::onDestroy()
 void OrthographicCameraRenderer::onResize(int width, int height)
 {
     glViewport(0, 0, width, height);
-    // TODO update camera here
-    std::cout << "onResize: " << width << ", " << height << std::endl;
+
+    float aspectRatio = (float)(width) / (float)(height);
+    m_camera.setProjection(-aspectRatio, aspectRatio, -1.0f, 1.0f);
 }
 
 void OrthographicCameraRenderer::onUpdate(float time)
@@ -128,8 +123,7 @@ void OrthographicCameraRenderer::onDraw()
     glUniform1i(m_textureUniformLocation, 0);
     glm::mat4 modelMatrix = m_transform.getModelMatrix();
     glUniformMatrix4fv(m_modelMatrixUniformLocation, 1, false, glm::value_ptr(modelMatrix));
-    // TODO: identity matrix for testing, replace by proper matrix
-    glm::mat4 projectionMatrix = glm::mat4(1.0);
+    glm::mat4 projectionMatrix = m_camera.getProjectionMatrix();
     glUniformMatrix4fv(m_projectionMatrixUniformLocation, 1, false, glm::value_ptr(projectionMatrix));
 
     glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);

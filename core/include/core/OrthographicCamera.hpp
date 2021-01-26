@@ -5,10 +5,9 @@
 class OrthographicCamera
 {
 public:
-    OrthographicCamera(float left, float right, float bottom, float top);
+    void setProjection(float left, float right, float bottom, float top);
 
-    glm::mat4 getProjectionMatrix() const;
-
+    const glm::mat4& getProjectionMatrix() const { return m_projectionMatrix; }
 private:
     glm::mat4 m_projectionMatrix;
 };

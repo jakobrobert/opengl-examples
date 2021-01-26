@@ -12,7 +12,6 @@
 class OrthographicCameraRenderer : public Renderer
 {
 public:
-    OrthographicCameraRenderer();
     virtual bool onInit() override;
     virtual void onDestroy() override;
     virtual void onResize(int width, int height) override;
