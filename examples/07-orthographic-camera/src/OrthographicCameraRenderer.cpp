@@ -106,6 +106,8 @@ void OrthographicCameraRenderer::onUpdate(float time)
 
     float rotation = 2.0f * time;
     m_transform.setRotation(rotation);
+
+    m_camera.setPosition(glm::vec2(1.0f, 0.5f));
 }
 
 void OrthographicCameraRenderer::onDraw()
