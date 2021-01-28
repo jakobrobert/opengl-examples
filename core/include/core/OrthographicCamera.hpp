@@ -5,21 +5,18 @@
 class OrthographicCamera
 {
 public:
-    OrthographicCamera();
-
-    // TODO do not cache, create matrix in getter to be consistent with Transform2D
-    const glm::mat4& getViewMatrix() const { return m_viewMatrix; }
-    const glm::mat4& getProjectionMatrix() const { return m_projectionMatrix; }
+    void setProjection(float left, float right, float bottom, float top);
 
     const glm::vec2& getPosition() const { return m_position; }
-    void setPosition(const glm::vec2& position);
+    void setPosition(const glm::vec2& position) { m_position = position; }
 
-    void setProjection(float left, float right, float bottom, float top);
+    glm::mat4 getProjectionMatrix() const;
+    glm::mat4 getViewMatrix() const;
 private:
-    void updateViewMatrix();
-private:
-    glm::mat4 m_viewMatrix;
-    glm::mat4 m_projectionMatrix;
+    float m_left;
+    float m_right;
+    float m_bottom;
+    float m_top;
 
     glm::vec2 m_position;
 };

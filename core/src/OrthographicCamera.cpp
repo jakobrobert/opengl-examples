@@ -2,29 +2,28 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-OrthographicCamera::OrthographicCamera()
-:   m_viewMatrix(1.0f),
-    m_projectionMatrix(1.0f)
-{}
-
-void OrthographicCamera::setPosition(const glm::vec2& position)
-{
-    m_position = position;
-    updateViewMatrix();
-}
-
+// TODO can simplify, only pass aspect ratio
 void OrthographicCamera::setProjection(float left, float right, float bottom, float top)
 {
-    m_projectionMatrix = glm::ortho(left, right, bottom, top);
+    m_left = left;
+    m_right = right;
+    m_bottom = bottom;
+    m_top = top;
 }
 
-void OrthographicCamera::updateViewMatrix()
+glm::mat4 OrthographicCamera::getProjectionMatrix() const
 {
-    m_viewMatrix = glm::mat4(1.0f);
+    return glm::ortho(m_left, m_right, m_bottom, m_top);
+}
 
+glm::mat4 OrthographicCamera::getViewMatrix() const
+{
     // multiplication order is in reverse order in which the matrices are applied
     // first translation, then scale, then rotation
     // for view matrix, all transformations are inverted
     // -> move camera to the right = move world to the left etc.
-    m_viewMatrix = glm::translate(m_viewMatrix, glm::vec3(-m_position, 0.0f));
+    glm::mat4 viewMatrix(1.0f);
+    viewMatrix = glm::translate(viewMatrix, glm::vec3(-m_position, 0.0f));
+
+    return viewMatrix;
 }
