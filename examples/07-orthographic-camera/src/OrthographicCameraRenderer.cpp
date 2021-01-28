@@ -104,12 +104,13 @@ void OrthographicCameraRenderer::onUpdate(float time)
     scale.y = std::pow(2.0f, std::sin(2.0f * time));
     m_transform.setScale(scale);
 
-    float rotation = 2.0f * time;
-    m_transform.setRotation(rotation);
+    /*float rotation = 2.0f * time;
+    m_transform.setRotation(rotation);*/
 
     // TODO: implement keyboard controls
     m_camera.setTranslation(glm::vec2(1.0f, 0.5f));
     m_camera.setScale(0.5f);
+    m_camera.setRotation(glm::radians(45.0f));
 }
 
 void OrthographicCameraRenderer::onDraw()
