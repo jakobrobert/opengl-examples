@@ -27,6 +27,7 @@ private:
     OrthographicCamera m_camera;
 
     int m_modelMatrixUniformLocation = -1;
+    int m_viewMatrixUniformLocation = -1;
     int m_projectionMatrixUniformLocation = -1;
     int m_textureUniformLocation = -1;
 };

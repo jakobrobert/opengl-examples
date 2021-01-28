@@ -17,6 +17,7 @@ bool OrthographicCameraRenderer::onInit()
     m_shader = new ShaderProgram(shaderFilename + ".vert", shaderFilename + ".frag");
     // get uniform locations
     m_modelMatrixUniformLocation = m_shader->getUniformLocation("u_modelMatrix");
+    m_viewMatrixUniformLocation = m_shader->getUniformLocation("u_viewMatrix");
     m_projectionMatrixUniformLocation = m_shader->getUniformLocation("u_projectionMatrix");
     m_textureUniformLocation = m_shader->getUniformLocation("u_texture");
 
@@ -123,6 +124,8 @@ void OrthographicCameraRenderer::onDraw()
     glUniform1i(m_textureUniformLocation, 0);
     glm::mat4 modelMatrix = m_transform.getModelMatrix();
     glUniformMatrix4fv(m_modelMatrixUniformLocation, 1, false, glm::value_ptr(modelMatrix));
+    glm::mat4 viewMatrix = m_camera.getViewMatrix();
+    glUniformMatrix4fv(m_viewMatrixUniformLocation, 1, false, glm::value_ptr(viewMatrix));
     glm::mat4 projectionMatrix = m_camera.getProjectionMatrix();
     glUniformMatrix4fv(m_projectionMatrixUniformLocation, 1, false, glm::value_ptr(projectionMatrix));
 
