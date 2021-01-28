@@ -45,6 +45,11 @@ Window::Window(const std::string& title, int width, int height, Renderer* render
         glfwTerminate();
         throw std::runtime_error("Failed to initialize renderer!");
     }
+
+    // call onResize() callback for initial size
+    int bufferWidth, bufferHeight;
+    glfwGetFramebufferSize(m_window, &bufferWidth, &bufferHeight);
+    m_renderer->onResize(bufferWidth, bufferHeight);
 }
 
 Window::~Window()
