@@ -18,13 +18,13 @@ glm::mat4 OrthographicCamera::getProjectionMatrix() const
 glm::mat4 OrthographicCamera::getViewMatrix() const
 {
     // multiplication order is in reverse order in which the matrices are applied
-    // first translation, then scale, then rotation
+    // first rotation, then translation, then scale
     // all transformations are inverted
     // -> move camera to the right = move world to the left etc.
     glm::mat4 viewMatrix(1.0f);
-    viewMatrix = glm::rotate(viewMatrix, -m_rotation, glm::vec3(0.0f, 0.0f, 1.0f));
     viewMatrix = glm::scale(viewMatrix, glm::vec3(m_scale, m_scale, 1.0f));
     viewMatrix = glm::translate(viewMatrix, glm::vec3(-m_translation, 0.0f));
+    viewMatrix = glm::rotate(viewMatrix, -m_rotation, glm::vec3(0.0f, 0.0f, 1.0f));
 
     return viewMatrix;
 }
