@@ -73,6 +73,11 @@ bool OrthographicCameraRenderer::onInit()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    // TODO need to set initial state of camera, fix it
+    m_camera.setTranslation(glm::vec2(1.0f, 0.5f));
+    m_camera.setScale(0.5f);
+    m_camera.setRotation(glm::radians(45.0f));
+
     return true;
 }
 
@@ -94,6 +99,7 @@ void OrthographicCameraRenderer::onResize(int width, int height)
     m_camera.setProjection(-aspectRatio, aspectRatio, -1.0f, 1.0f);
 }
 
+// TODO can move time into Window as well
 void OrthographicCameraRenderer::onUpdate(const Window& window, float time)
 {
     glm::vec2 translation;
@@ -109,14 +115,7 @@ void OrthographicCameraRenderer::onUpdate(const Window& window, float time)
     float rotation = 2.0f * time;
     m_transform.setRotation(rotation);
 
-    // TODO: implement keyboard controls
-    if (window.getKey(GLFW_KEY_W)) {
-        std::cout << "Key pressed: W" << std::endl;
-    }
-
-    m_camera.setTranslation(glm::vec2(1.0f, 0.5f));
-    m_camera.setScale(0.5f);
-    m_camera.setRotation(glm::radians(45.0f));
+    updateCamera(window);
 }
 
 void OrthographicCameraRenderer::onDraw()
@@ -145,4 +144,21 @@ void OrthographicCameraRenderer::onDraw()
     m_shader->unuse();
     m_vertexArray->unbind();
     m_texture->unbind();
+}
+
+void OrthographicCameraRenderer::updateCamera(const Window &window)
+{
+    glm::vec2 translation = m_camera.getTranslation();
+
+    if (window.getKey(GLFW_KEY_A) == GLFW_PRESS) {
+        translation.x -= CAMERA_MOVE_SPEED;
+    } else if (window.getKey(GLFW_KEY_D) == GLFW_PRESS) {
+        translation.x += CAMERA_MOVE_SPEED;
+    } else if (window.getKey(GLFW_KEY_S) == GLFW_PRESS) {
+        translation.y -= CAMERA_MOVE_SPEED;
+    } else if (window.getKey(GLFW_KEY_W) == GLFW_PRESS) {
+        translation.y += CAMERA_MOVE_SPEED;
+    }
+    
+    m_camera.setTranslation(translation);
 }

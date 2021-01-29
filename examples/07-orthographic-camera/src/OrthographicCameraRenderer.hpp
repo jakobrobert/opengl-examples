@@ -18,6 +18,8 @@ public:
     virtual void onUpdate(const class Window &window, float time) override;
     virtual void onDraw() override;
 private:
+    void updateCamera(const class Window &window);
+private:
     ShaderProgram* m_shader = nullptr;
     VertexArray* m_vertexArray = nullptr;
     VertexBuffer* m_vertexBuffer = nullptr;
@@ -30,4 +32,6 @@ private:
     int m_viewMatrixUniformLocation = -1;
     int m_projectionMatrixUniformLocation = -1;
     int m_textureUniformLocation = -1;
+
+    static constexpr float CAMERA_MOVE_SPEED = 0.1f;
 };
