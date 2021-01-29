@@ -63,11 +63,16 @@ void Window::runRenderLoop()
 {
     while (!glfwWindowShouldClose(m_window)) {
         float time = (float)(glfwGetTime());
-        m_renderer->onUpdate(time);
+        m_renderer->onUpdate(*this, time);
         m_renderer->onDraw();
         glfwSwapBuffers(m_window);
         glfwPollEvents();
     }
+}
+
+int Window::getKey(int keyCode) const
+{
+    return glfwGetKey(m_window, keyCode);
 }
 
 static void errorCallback(int error, const char *description)

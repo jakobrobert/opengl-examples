@@ -87,7 +87,7 @@ void TransformationsRenderer::onResize(int width, int height)
     glViewport(0, 0, width, height);
 }
 
-void TransformationsRenderer::onUpdate(float time)
+void TransformationsRenderer::onUpdate(const Window& window, float time)
 {
     glm::vec2 translation;
     translation.x = 0.75f * std::cos(3.0f * time);

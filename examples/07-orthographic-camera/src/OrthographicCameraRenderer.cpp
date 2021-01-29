@@ -10,6 +10,8 @@
 #include <vector>
 #include <cmath>
 
+#include <core/Window.hpp>
+
 bool OrthographicCameraRenderer::onInit()
 {
     // create shader
@@ -92,7 +94,7 @@ void OrthographicCameraRenderer::onResize(int width, int height)
     m_camera.setProjection(-aspectRatio, aspectRatio, -1.0f, 1.0f);
 }
 
-void OrthographicCameraRenderer::onUpdate(float time)
+void OrthographicCameraRenderer::onUpdate(const Window& window, float time)
 {
     glm::vec2 translation;
     translation.x = 0.75f * std::cos(3.0f * time);
@@ -108,6 +110,10 @@ void OrthographicCameraRenderer::onUpdate(float time)
     m_transform.setRotation(rotation);
 
     // TODO: implement keyboard controls
+    if (window.getKey(GLFW_KEY_W)) {
+        std::cout << "Key pressed: W" << std::endl;
+    }
+
     m_camera.setTranslation(glm::vec2(1.0f, 0.5f));
     m_camera.setScale(0.5f);
     m_camera.setRotation(glm::radians(45.0f));
