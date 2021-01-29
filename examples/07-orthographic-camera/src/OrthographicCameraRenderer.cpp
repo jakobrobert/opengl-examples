@@ -148,6 +148,13 @@ void OrthographicCameraRenderer::onDraw()
 
 void OrthographicCameraRenderer::updateCamera(const Window &window)
 {
+    updateCameraTranslation(window);
+    updateCameraRotation(window);
+    updateCameraScale(window);
+}
+
+void OrthographicCameraRenderer::updateCameraTranslation(const Window &window)
+{
     glm::vec2 translation = m_camera.getTranslation();
 
     if (window.getKey(GLFW_KEY_A) == GLFW_PRESS) {
@@ -161,4 +168,30 @@ void OrthographicCameraRenderer::updateCamera(const Window &window)
     }
     
     m_camera.setTranslation(translation);
+}
+
+void OrthographicCameraRenderer::updateCameraRotation(const Window &window)
+{
+    float rotation = m_camera.getRotation();
+
+    if (window.getKey(GLFW_KEY_Q) == GLFW_PRESS) {
+        rotation += CAMERA_ROTATION_SPEED;
+    } else if (window.getKey(GLFW_KEY_E) == GLFW_PRESS) {
+        rotation -= CAMERA_ROTATION_SPEED;
+    }
+
+    m_camera.setRotation(rotation);
+}
+
+void OrthographicCameraRenderer::updateCameraScale(const Window &window)
+{
+    float scale = m_camera.getScale();
+
+    if (window.getKey(GLFW_KEY_Z) == GLFW_PRESS) {
+        scale *= CAMERA_SCALE_SPEED_FACTOR;
+    } else if (window.getKey(GLFW_KEY_X) == GLFW_PRESS) {
+        scale /= CAMERA_SCALE_SPEED_FACTOR;
+    }
+
+    m_camera.setScale(scale);
 }
