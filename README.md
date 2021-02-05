@@ -34,7 +34,7 @@ To clean the build directory, execute the clean script:
 
 Each example has its own sub-directory in the directory `build/examples`.
 To execute any example, you first need to change the directory.
-E.g to execute the first example, execute the following commands starting from the root of the project.
+E.g to execute the first example, execute the following commands:
 ```
 cd build/examples/01-window
 ./01-window
