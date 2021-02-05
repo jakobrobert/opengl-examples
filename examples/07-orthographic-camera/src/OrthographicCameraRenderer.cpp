@@ -95,7 +95,7 @@ void OrthographicCameraRenderer::onResize(int width, int height)
     glViewport(0, 0, width, height);
 
     float aspectRatio = (float)(width) / (float)(height);
-    m_camera.setProjection(-aspectRatio, aspectRatio, -1.0f, 1.0f);
+    m_camera.setViewportSize(glm::vec2(2.0f * aspectRatio, 2.0f));
 }
 
 // TODO can move time into Window as well

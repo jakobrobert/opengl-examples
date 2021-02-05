@@ -4,17 +4,13 @@
 
 #include <core/Transform2D.hpp>
 
-void OrthographicCamera::setProjection(float left, float right, float bottom, float top)
-{
-    m_left = left;
-    m_right = right;
-    m_bottom = bottom;
-    m_top = top;
-}
-
 glm::mat4 OrthographicCamera::getProjectionMatrix() const
 {
-    return glm::ortho(m_left, m_right, m_bottom, m_top);
+    float left = -0.5 * m_viewportSize.x;
+    float right = 0.5 * m_viewportSize.x;
+    float bottom = -0.5 * m_viewportSize.y;
+    float top = 0.5 * m_viewportSize.y;
+    return glm::ortho(left, right, bottom, top);
 }
 
 glm::mat4 OrthographicCamera::getViewMatrix() const
