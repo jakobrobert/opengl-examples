@@ -18,9 +18,7 @@ bool OrthographicCameraRenderer::onInit()
     std::string shaderFilename = "assets/shaders/texture_and_vertex_color";
     m_shader = new ShaderProgram(shaderFilename + ".vert", shaderFilename + ".frag");
     // get uniform locations
-    m_modelMatrixUniformLocation = m_shader->getUniformLocation("u_modelMatrix");
-    m_viewMatrixUniformLocation = m_shader->getUniformLocation("u_viewMatrix");
-    m_projectionMatrixUniformLocation = m_shader->getUniformLocation("u_projectionMatrix");
+    m_mvpMatrixUniformLocation = m_shader->getUniformLocation("u_mvpMatrix");
     m_textureUniformLocation = m_shader->getUniformLocation("u_texture");
 
     // create vertex array
@@ -75,7 +73,7 @@ bool OrthographicCameraRenderer::onInit()
 
     m_camera.setTranslation(glm::vec2(1.0f, 0.5f));
     m_camera.setScale(glm::vec2(2.0f, 2.0f));
-    m_camera.setRotation(glm::radians(45.0f));
+    m_camera.setRotation(glm::radians(0.0f));
 
     return true;
 }
@@ -98,7 +96,6 @@ void OrthographicCameraRenderer::onResize(int width, int height)
     m_camera.setViewportSize(glm::vec2(2.0f * aspectRatio, 2.0f));
 }
 
-// TODO can move time into Window as well
 void OrthographicCameraRenderer::onUpdate(const Window& window, float time)
 {
     glm::vec2 translation;
@@ -132,11 +129,12 @@ void OrthographicCameraRenderer::onDraw()
 
     glUniform1i(m_textureUniformLocation, 0);
     glm::mat4 modelMatrix = m_transform.getModelMatrix();
-    glUniformMatrix4fv(m_modelMatrixUniformLocation, 1, false, glm::value_ptr(modelMatrix));
     glm::mat4 viewMatrix = m_camera.getViewMatrix();
-    glUniformMatrix4fv(m_viewMatrixUniformLocation, 1, false, glm::value_ptr(viewMatrix));
     glm::mat4 projectionMatrix = m_camera.getProjectionMatrix();
-    glUniformMatrix4fv(m_projectionMatrixUniformLocation, 1, false, glm::value_ptr(projectionMatrix));
+    // calculate mvp (model view projection) matrix by combining the matrices
+    // multiplication order is reverse of transformation order
+    glm::mat4 mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
+    glUniformMatrix4fv(m_mvpMatrixUniformLocation, 1, false, glm::value_ptr(mvpMatrix));
 
     glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
 

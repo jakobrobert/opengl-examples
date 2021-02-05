@@ -1,8 +1,6 @@
 #version 330 core
 
-uniform mat4 u_modelMatrix;
-uniform mat4 u_viewMatrix;
-uniform mat4 u_projectionMatrix;
+uniform mat4 u_mvpMatrix;
 
 in vec2 a_position;
 in vec3 a_color;
@@ -15,6 +13,6 @@ void main()
 {
     v_color = a_color;
     v_textureCoord = a_textureCoord;
-    // TODO merge into one mvp matrix
-    gl_Position = u_projectionMatrix * u_viewMatrix * u_modelMatrix * vec4(a_position, 0.0, 1.0);
+    
+    gl_Position = u_mvpMatrix * vec4(a_position, 0.0, 1.0);
 }
