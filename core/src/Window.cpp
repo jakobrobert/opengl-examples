@@ -26,6 +26,10 @@ Window::Window(const std::string& title, int width, int height, Renderer* render
         throw std::runtime_error("Failed to create GLFW window!");
     }
 
+    // a trick to get access to the renderer in callbacks
+    // cannot pass member function as callback
+    glfwSetWindowUserPointer(m_window, m_renderer);
+
     glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
 
     glfwMakeContextCurrent(m_window);
@@ -41,6 +45,11 @@ Window::Window(const std::string& title, int width, int height, Renderer* render
         glfwTerminate();
         throw std::runtime_error("Failed to initialize renderer!");
     }
+
+    // call onResize() callback for initial size
+    int bufferWidth, bufferHeight;
+    glfwGetFramebufferSize(m_window, &bufferWidth, &bufferHeight);
+    m_renderer->onResize(bufferWidth, bufferHeight);
 }
 
 Window::~Window()
@@ -54,11 +63,16 @@ void Window::runRenderLoop()
 {
     while (!glfwWindowShouldClose(m_window)) {
         float time = (float)(glfwGetTime());
-        m_renderer->onUpdate(time);
+        m_renderer->onUpdate(*this, time);
         m_renderer->onDraw();
         glfwSwapBuffers(m_window);
         glfwPollEvents();
     }
+}
+
+int Window::getKey(int keyCode) const
+{
+    return glfwGetKey(m_window, keyCode);
 }
 
 static void errorCallback(int error, const char *description)
@@ -68,5 +82,6 @@ static void errorCallback(int error, const char *description)
 
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    glViewport(0, 0, width, height);
+    Renderer* renderer = (Renderer*)glfwGetWindowUserPointer(window);
+    renderer->onResize(width, height);
 }

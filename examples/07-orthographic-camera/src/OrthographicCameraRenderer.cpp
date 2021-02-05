@@ -1,4 +1,4 @@
-#include "TransformationsRenderer.hpp"
+#include "OrthographicCameraRenderer.hpp"
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -10,13 +10,15 @@
 #include <vector>
 #include <cmath>
 
-bool TransformationsRenderer::onInit()
+#include <core/Window.hpp>
+
+bool OrthographicCameraRenderer::onInit()
 {
     // create shader
     std::string shaderFilename = "assets/shaders/texture_and_vertex_color";
     m_shader = new ShaderProgram(shaderFilename + ".vert", shaderFilename + ".frag");
     // get uniform locations
-    m_modelMatrixUniformLocation = m_shader->getUniformLocation("u_modelMatrix");
+    m_mvpMatrixUniformLocation = m_shader->getUniformLocation("u_mvpMatrix");
     m_textureUniformLocation = m_shader->getUniformLocation("u_texture");
 
     // create vertex array
@@ -69,10 +71,14 @@ bool TransformationsRenderer::onInit()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    m_camera.setTranslation(glm::vec2(1.0f, 0.5f));
+    m_camera.setScale(glm::vec2(2.0f, 2.0f));
+    m_camera.setRotation(glm::radians(0.0f));
+
     return true;
 }
 
-void TransformationsRenderer::onDestroy()
+void OrthographicCameraRenderer::onDestroy()
 {
     // clean up: delete all opengl objects
     delete m_shader;
@@ -82,12 +88,15 @@ void TransformationsRenderer::onDestroy()
     delete m_texture;
 }
 
-void TransformationsRenderer::onResize(int width, int height)
+void OrthographicCameraRenderer::onResize(int width, int height)
 {
     glViewport(0, 0, width, height);
+
+    float aspectRatio = (float)(width) / (float)(height);
+    m_camera.setViewportSize(glm::vec2(2.0f * aspectRatio, 2.0f));
 }
 
-void TransformationsRenderer::onUpdate(const Window& window, float time)
+void OrthographicCameraRenderer::onUpdate(const Window& window, float time)
 {
     glm::vec2 translation;
     translation.x = 0.75f * std::cos(3.0f * time);
@@ -101,9 +110,11 @@ void TransformationsRenderer::onUpdate(const Window& window, float time)
 
     float rotation = 2.0f * time;
     m_transform.setRotation(rotation);
+
+    updateCamera(window);
 }
 
-void TransformationsRenderer::onDraw()
+void OrthographicCameraRenderer::onDraw()
 {
     // clear screen
     glClear(GL_COLOR_BUFFER_BIT);
@@ -111,14 +122,73 @@ void TransformationsRenderer::onDraw()
     // draw the textured rectangle
     // binding and unbinding not necessary because they are the same objects each time
     // just to keep it more organized, easier to extend
+
     m_shader->use();
     m_vertexArray->bind();
     m_texture->bind(0);
+
     glUniform1i(m_textureUniformLocation, 0);
     glm::mat4 modelMatrix = m_transform.getModelMatrix();
-    glUniformMatrix4fv(m_modelMatrixUniformLocation, 1, false, glm::value_ptr(modelMatrix));
+    glm::mat4 viewMatrix = m_camera.getViewMatrix();
+    glm::mat4 projectionMatrix = m_camera.getProjectionMatrix();
+    // calculate mvp (model view projection) matrix by combining the matrices
+    // multiplication order is reverse of transformation order
+    glm::mat4 mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
+    glUniformMatrix4fv(m_mvpMatrixUniformLocation, 1, false, glm::value_ptr(mvpMatrix));
+
     glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
+
     m_shader->unuse();
     m_vertexArray->unbind();
     m_texture->unbind();
+}
+
+void OrthographicCameraRenderer::updateCamera(const Window &window)
+{
+    updateCameraTranslation(window);
+    updateCameraRotation(window);
+    updateCameraScale(window);
+}
+
+void OrthographicCameraRenderer::updateCameraTranslation(const Window &window)
+{
+    glm::vec2 translation = m_camera.getTranslation();
+
+    if (window.getKey(GLFW_KEY_A) == GLFW_PRESS) {
+        translation.x -= CAMERA_MOVE_SPEED;
+    } else if (window.getKey(GLFW_KEY_D) == GLFW_PRESS) {
+        translation.x += CAMERA_MOVE_SPEED;
+    } else if (window.getKey(GLFW_KEY_S) == GLFW_PRESS) {
+        translation.y -= CAMERA_MOVE_SPEED;
+    } else if (window.getKey(GLFW_KEY_W) == GLFW_PRESS) {
+        translation.y += CAMERA_MOVE_SPEED;
+    }
+    
+    m_camera.setTranslation(translation);
+}
+
+void OrthographicCameraRenderer::updateCameraRotation(const Window &window)
+{
+    float rotation = m_camera.getRotation();
+
+    if (window.getKey(GLFW_KEY_Q) == GLFW_PRESS) {
+        rotation += CAMERA_ROTATION_SPEED;
+    } else if (window.getKey(GLFW_KEY_E) == GLFW_PRESS) {
+        rotation -= CAMERA_ROTATION_SPEED;
+    }
+
+    m_camera.setRotation(rotation);
+}
+
+void OrthographicCameraRenderer::updateCameraScale(const Window &window)
+{
+    float scale = m_camera.getScale().x;
+
+    if (window.getKey(GLFW_KEY_Z) == GLFW_PRESS) {
+        scale /= CAMERA_SCALE_SPEED_FACTOR;
+    } else if (window.getKey(GLFW_KEY_X) == GLFW_PRESS) {
+        scale *= CAMERA_SCALE_SPEED_FACTOR;
+    }
+
+    m_camera.setScale(glm::vec2(scale, scale));
 }

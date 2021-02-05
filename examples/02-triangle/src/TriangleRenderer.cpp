@@ -52,6 +52,11 @@ void TriangleRenderer::onDestroy()
     delete m_vertexBuffer;
 }
 
+void TriangleRenderer::onResize(int width, int height)
+{
+    glViewport(0, 0, width, height);
+}
+
 void TriangleRenderer::onDraw()
 {
     // clear screen

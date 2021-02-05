@@ -14,6 +14,7 @@ public:
     ~Window();
 
     void runRenderLoop();
+    int getKey(int keyCode) const;
 private:
     GLFWwindow* m_window = nullptr;
     Renderer* m_renderer = nullptr;

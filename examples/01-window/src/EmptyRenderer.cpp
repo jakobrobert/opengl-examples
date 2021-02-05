@@ -10,6 +10,11 @@ bool EmptyRenderer::onInit()
     return true;
 }
 
+void EmptyRenderer::onResize(int width, int height)
+{
+    glViewport(0, 0, width, height);
+}
+
 void EmptyRenderer::onDraw()
 {
     // clear screen

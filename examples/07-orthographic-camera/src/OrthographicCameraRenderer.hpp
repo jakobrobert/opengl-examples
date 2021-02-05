@@ -7,8 +7,9 @@
 #include <core/gl/IndexBuffer.hpp>
 #include <core/gl/Texture.hpp>
 #include <core/Transform2D.hpp>
+#include <core/OrthographicCamera.hpp>
 
-class TransformationsRenderer : public Renderer
+class OrthographicCameraRenderer : public Renderer
 {
 public:
     virtual bool onInit() override;
@@ -17,13 +18,23 @@ public:
     virtual void onUpdate(const class Window &window, float time) override;
     virtual void onDraw() override;
 private:
+    void updateCamera(const class Window &window);
+    void updateCameraTranslation(const class Window &window);
+    void updateCameraRotation(const class Window &window);
+    void updateCameraScale(const class Window &window);
+private:
     ShaderProgram* m_shader = nullptr;
     VertexArray* m_vertexArray = nullptr;
     VertexBuffer* m_vertexBuffer = nullptr;
     IndexBuffer* m_indexBuffer = nullptr;
     Texture* m_texture = nullptr;
     Transform2D m_transform;
+    OrthographicCamera m_camera;
 
-    int m_modelMatrixUniformLocation = -1;
+    int m_mvpMatrixUniformLocation = -1;
     int m_textureUniformLocation = -1;
+
+    static constexpr float CAMERA_MOVE_SPEED = 0.1f;
+    static constexpr float CAMERA_ROTATION_SPEED = 0.1f;
+    static constexpr float CAMERA_SCALE_SPEED_FACTOR = 1.02f;
 };

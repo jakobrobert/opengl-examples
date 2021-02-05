@@ -8,6 +8,7 @@ add_library(core
     src/gl/Texture.cpp
     src/gl/VertexLayout.cpp
     src/Transform2D.cpp
+    src/OrthographicCamera.cpp
 )
 
 # Add include directory to core
