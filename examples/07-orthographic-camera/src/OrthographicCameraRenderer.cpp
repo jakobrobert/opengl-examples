@@ -73,9 +73,8 @@ bool OrthographicCameraRenderer::onInit()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    // TODO need to set initial state of camera, fix it
     m_camera.setTranslation(glm::vec2(1.0f, 0.5f));
-    m_camera.setScale(0.5f);
+    m_camera.setScale(glm::vec2(2.0f, 2.0f));
     m_camera.setRotation(glm::radians(45.0f));
 
     return true;
@@ -185,13 +184,13 @@ void OrthographicCameraRenderer::updateCameraRotation(const Window &window)
 
 void OrthographicCameraRenderer::updateCameraScale(const Window &window)
 {
-    float scale = m_camera.getScale();
+    float scale = m_camera.getScale().x;
 
     if (window.getKey(GLFW_KEY_Z) == GLFW_PRESS) {
-        scale *= CAMERA_SCALE_SPEED_FACTOR;
-    } else if (window.getKey(GLFW_KEY_X) == GLFW_PRESS) {
         scale /= CAMERA_SCALE_SPEED_FACTOR;
+    } else if (window.getKey(GLFW_KEY_X) == GLFW_PRESS) {
+        scale *= CAMERA_SCALE_SPEED_FACTOR;
     }
 
-    m_camera.setScale(scale);
+    m_camera.setScale(glm::vec2(scale, scale));
 }
