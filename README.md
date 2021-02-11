@@ -15,7 +15,7 @@ git submodule update --init
 ## Build and Run (Linux)
 So far, the project has only been tested under Linux Debian.
 
-In order to build, you need to install the CMake build tool, g++ compiler and the X11 packages:
+In order to build, you need to install the g++ compiler, CMake build tool and the X11 packages:
 ```
 sudo apt-get install g++
 sudo apt-get install cmake
