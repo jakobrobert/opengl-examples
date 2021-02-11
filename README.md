@@ -15,7 +15,7 @@ git submodule update --init
 ## Build and Run (Linux)
 So far, the project has only been tested under Linux Debian.
 
-In order to build, you need to install the CMake build tool, g++ compiler and the X11 packages:
+In order to build, you need to install the g++ compiler, CMake build tool and the X11 packages:
 ```
 sudo apt-get install g++
 sudo apt-get install cmake
@@ -34,7 +34,7 @@ To clean the build directory, execute the clean script:
 
 Each example has its own sub-directory in the directory `build/examples`.  
 To execute any example, you first need to change the directory.  
-E.g to execute the first example, execute the following commands:
+E.g you can execute the first example as follows:
 ```
 cd build/examples/01-window
 ./01-window
