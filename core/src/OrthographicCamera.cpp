@@ -20,3 +20,9 @@ glm::mat4 OrthographicCamera::getViewMatrix() const
     glm::mat4 modelMatrix = m_transform.getModelMatrix();
     return glm::inverse(modelMatrix);
 }
+
+glm::mat4 OrthographicCamera::getViewProjectionMatrix() const
+{
+    // multiplication in reverse order
+    return getProjectionMatrix() * getViewMatrix();
+}

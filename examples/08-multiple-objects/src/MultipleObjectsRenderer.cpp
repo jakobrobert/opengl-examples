@@ -130,10 +130,7 @@ void MultipleObjectsRenderer::onDraw()
 
     glUniform1i(m_textureUniformLocation, 0);
 
-    glm::mat4 viewMatrix = m_camera.getViewMatrix();
-    glm::mat4 projectionMatrix = m_camera.getProjectionMatrix();
-    // TODO create helper method in Camera
-    glm::mat4 viewProjectionMatrix = projectionMatrix * viewMatrix; // multiplication in reverse order
+    glm::mat4 viewProjectionMatrix = m_camera.getViewProjectionMatrix();
 
     // draw all objects by applying the model matrix of the corresponding transform
     // actually drawing the same object multiple times, just with a different transform
