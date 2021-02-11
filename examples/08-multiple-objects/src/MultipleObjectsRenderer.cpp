@@ -77,6 +77,7 @@ bool MultipleObjectsRenderer::onInit()
 
     m_transforms.emplace_back();
     m_transforms.emplace_back();
+    m_transforms.emplace_back();
 
     return true;
 }
@@ -110,6 +111,10 @@ void MultipleObjectsRenderer::onUpdate(const Window& window, float time)
     translation.y += 0.5f;
     m_transforms[1].setTranslation(translation);
 
+    translation.x += 1.0f;
+    translation.y += 1.0f;
+    m_transforms[2].setTranslation(translation);
+
     glm::vec2 scale;
     scale.x = std::pow(2.0f, std::cos(3.0f * time));
     scale.y = std::pow(2.0f, std::sin(2.0f * time));
@@ -118,11 +123,17 @@ void MultipleObjectsRenderer::onUpdate(const Window& window, float time)
     scale *= 0.75f;
     m_transforms[1].setScale(scale);
 
+    scale *= 2.0f;
+    m_transforms[2].setScale(scale);
+
     float rotation = 2.0f * time;
     m_transforms[0].setRotation(rotation);
 
     rotation += 1.0f;
     m_transforms[1].setRotation(rotation);
+
+    rotation += 1.0f;
+    m_transforms[2].setRotation(rotation);
 
     updateCamera(window);
 }
