@@ -75,9 +75,9 @@ bool MultipleObjectsRenderer::onInit()
     m_camera.setScale(glm::vec2(2.0f, 2.0f));
     m_camera.setRotation(glm::radians(0.0f));
 
-    m_transforms.emplace_back();
-    m_transforms.emplace_back();
-    m_transforms.emplace_back();
+    m_objectTransforms.emplace_back();
+    m_objectTransforms.emplace_back();
+    m_objectTransforms.emplace_back();
 
     return true;
 }
@@ -102,39 +102,7 @@ void MultipleObjectsRenderer::onResize(int width, int height)
 
 void MultipleObjectsRenderer::onUpdate(const Window& window, float time)
 {
-    glm::vec2 translation;
-    translation.x = 0.75f * std::cos(3.0f * time);
-    translation.y = 0.75f * std::sin(2.0f * time);
-    m_transforms[0].setTranslation(translation);
-
-    translation.x += 0.5f;
-    translation.y += 0.5f;
-    m_transforms[1].setTranslation(translation);
-
-    translation.x += 1.0f;
-    translation.y += 1.0f;
-    m_transforms[2].setTranslation(translation);
-
-    glm::vec2 scale;
-    scale.x = std::pow(2.0f, std::cos(3.0f * time));
-    scale.y = std::pow(2.0f, std::sin(2.0f * time));
-    m_transforms[0].setScale(scale);
-
-    scale *= 0.75f;
-    m_transforms[1].setScale(scale);
-
-    scale *= 2.0f;
-    m_transforms[2].setScale(scale);
-
-    float rotation = 2.0f * time;
-    m_transforms[0].setRotation(rotation);
-
-    rotation += 1.0f;
-    m_transforms[1].setRotation(rotation);
-
-    rotation += 1.0f;
-    m_transforms[2].setRotation(rotation);
-
+    updateObjects(time);
     updateCamera(window);
 }
 
@@ -156,7 +124,7 @@ void MultipleObjectsRenderer::onDraw()
 
     // draw all objects by applying the model matrix of the corresponding transform
     // actually drawing the same object multiple times, just with a different transform
-    for (const auto& transform : m_transforms) {
+    for (const auto& transform : m_objectTransforms) {
         glm::mat4 modelMatrix = transform.getModelMatrix();
         glm::mat4 mvpMatrix = viewProjectionMatrix * modelMatrix; // multiplication in reverse order
         glUniformMatrix4fv(m_mvpMatrixUniformLocation, 1, false, glm::value_ptr(mvpMatrix));
@@ -166,6 +134,42 @@ void MultipleObjectsRenderer::onDraw()
     m_shader->unuse();
     m_vertexArray->unbind();
     m_texture->unbind();
+}
+
+void MultipleObjectsRenderer::updateObjects(float time)
+{
+    glm::vec2 translation;
+    translation.x = 0.75f * std::cos(3.0f * time);
+    translation.y = 0.75f * std::sin(2.0f * time);
+    m_objectTransforms[0].setTranslation(translation);
+
+    translation.x += 0.5f;
+    translation.y += 0.5f;
+    m_objectTransforms[1].setTranslation(translation);
+
+    translation.x += 1.0f;
+    translation.y += 1.0f;
+    m_objectTransforms[2].setTranslation(translation);
+
+    glm::vec2 scale;
+    scale.x = std::pow(2.0f, std::cos(3.0f * time));
+    scale.y = std::pow(2.0f, std::sin(2.0f * time));
+    m_objectTransforms[0].setScale(scale);
+
+    scale *= 0.75f;
+    m_objectTransforms[1].setScale(scale);
+
+    scale *= 2.0f;
+    m_objectTransforms[2].setScale(scale);
+
+    float rotation = 2.0f * time;
+    m_objectTransforms[0].setRotation(rotation);
+
+    rotation += 1.0f;
+    m_objectTransforms[1].setRotation(rotation);
+
+    rotation += 1.0f;
+    m_objectTransforms[2].setRotation(rotation);
 }
 
 void MultipleObjectsRenderer::updateCamera(const Window &window)

@@ -20,6 +20,7 @@ public:
     virtual void onUpdate(const class Window &window, float time) override;
     virtual void onDraw() override;
 private:
+    void updateObjects(float time);
     void updateCamera(const class Window &window);
     void updateCameraTranslation(const class Window &window);
     void updateCameraRotation(const class Window &window);
@@ -32,7 +33,7 @@ private:
     Texture* m_texture = nullptr;
     OrthographicCamera m_camera;
 
-    std::vector<Transform2D> m_transforms;
+    std::vector<Transform2D> m_objectTransforms;
 
     int m_mvpMatrixUniformLocation = -1;
     int m_textureUniformLocation = -1;
