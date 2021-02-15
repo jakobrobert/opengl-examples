@@ -69,6 +69,8 @@ bool TransformationsRenderer::onInit()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    m_elapsedTime = 0.0f;
+
     return true;
 }
 
@@ -87,19 +89,21 @@ void TransformationsRenderer::onResize(int width, int height)
     glViewport(0, 0, width, height);
 }
 
-void TransformationsRenderer::onUpdate(const Window& window, float time)
+void TransformationsRenderer::onUpdate(const Window& window, float frameTime)
 {
+    m_elapsedTime += frameTime;
+
     glm::vec2 translation;
-    translation.x = 0.75f * std::cos(3.0f * time);
-    translation.y = 0.75f * std::sin(2.0f * time);
+    translation.x = 0.75f * std::cos(3.0f * m_elapsedTime);
+    translation.y = 0.75f * std::sin(2.0f * m_elapsedTime);
     m_transform.setTranslation(translation);
 
     glm::vec2 scale;
-    scale.x = std::pow(2.0f, std::cos(3.0f * time));
-    scale.y = std::pow(2.0f, std::sin(2.0f * time));
+    scale.x = std::pow(2.0f, std::cos(3.0f * m_elapsedTime));
+    scale.y = std::pow(2.0f, std::sin(2.0f * m_elapsedTime));
     m_transform.setScale(scale);
 
-    float rotation = 2.0f * time;
+    float rotation = 2.0f * m_elapsedTime;
     m_transform.setRotation(rotation);
 }
 

@@ -79,6 +79,8 @@ bool MultipleObjectsRenderer::onInit()
     m_objectTransforms.emplace_back();
     m_objectTransforms.emplace_back();
 
+    m_elapsedTime = 0.0f;
+
     return true;
 }
 
@@ -100,9 +102,10 @@ void MultipleObjectsRenderer::onResize(int width, int height)
     m_camera.setViewportSize(glm::vec2(2.0f * aspectRatio, 2.0f));
 }
 
-void MultipleObjectsRenderer::onUpdate(const Window& window, float time)
+void MultipleObjectsRenderer::onUpdate(const Window& window, float frameTime)
 {
-    updateObjects(time);
+    m_elapsedTime += frameTime;
+    updateObjects();
     updateCamera(window);
 }
 
@@ -136,11 +139,11 @@ void MultipleObjectsRenderer::onDraw()
     m_texture->unbind();
 }
 
-void MultipleObjectsRenderer::updateObjects(float time)
+void MultipleObjectsRenderer::updateObjects()
 {
     glm::vec2 translation;
-    translation.x = 0.75f * std::cos(3.0f * time);
-    translation.y = 0.75f * std::sin(2.0f * time);
+    translation.x = 0.75f * std::cos(3.0f * m_elapsedTime);
+    translation.y = 0.75f * std::sin(2.0f * m_elapsedTime);
     m_objectTransforms[0].setTranslation(translation);
 
     translation.x += 0.5f;
@@ -152,8 +155,8 @@ void MultipleObjectsRenderer::updateObjects(float time)
     m_objectTransforms[2].setTranslation(translation);
 
     glm::vec2 scale;
-    scale.x = std::pow(2.0f, std::cos(3.0f * time));
-    scale.y = std::pow(2.0f, std::sin(2.0f * time));
+    scale.x = std::pow(2.0f, std::cos(3.0f * m_elapsedTime));
+    scale.y = std::pow(2.0f, std::sin(2.0f * m_elapsedTime));
     m_objectTransforms[0].setScale(scale);
 
     scale *= 0.75f;
@@ -162,7 +165,7 @@ void MultipleObjectsRenderer::updateObjects(float time)
     scale *= 2.0f;
     m_objectTransforms[2].setScale(scale);
 
-    float rotation = 2.0f * time;
+    float rotation = 2.0f * m_elapsedTime;
     m_objectTransforms[0].setRotation(rotation);
 
     rotation += 1.0f;
@@ -172,14 +175,15 @@ void MultipleObjectsRenderer::updateObjects(float time)
     m_objectTransforms[2].setRotation(rotation);
 }
 
-void MultipleObjectsRenderer::updateCamera(const Window &window)
+void MultipleObjectsRenderer::updateCamera(const Window& window)
 {
+    // TODO use frame time
     updateCameraTranslation(window);
     updateCameraRotation(window);
     updateCameraScale(window);
 }
 
-void MultipleObjectsRenderer::updateCameraTranslation(const Window &window)
+void MultipleObjectsRenderer::updateCameraTranslation(const Window& window)
 {
     glm::vec2 translation = m_camera.getTranslation();
 
@@ -196,7 +200,7 @@ void MultipleObjectsRenderer::updateCameraTranslation(const Window &window)
     m_camera.setTranslation(translation);
 }
 
-void MultipleObjectsRenderer::updateCameraRotation(const Window &window)
+void MultipleObjectsRenderer::updateCameraRotation(const Window& window)
 {
     float rotation = m_camera.getRotation();
 
@@ -209,7 +213,7 @@ void MultipleObjectsRenderer::updateCameraRotation(const Window &window)
     m_camera.setRotation(rotation);
 }
 
-void MultipleObjectsRenderer::updateCameraScale(const Window &window)
+void MultipleObjectsRenderer::updateCameraScale(const Window& window)
 {
     float scale = m_camera.getScale().x;
 

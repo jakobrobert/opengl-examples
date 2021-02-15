@@ -14,7 +14,7 @@ public:
     virtual bool onInit() override;
     virtual void onDestroy() override;
     virtual void onResize(int width, int height) override;
-    virtual void onUpdate(const class Window &window, float time) override;
+    virtual void onUpdate(const class Window& window, float frameTime) override;
     virtual void onDraw() override;
 private:
     ShaderProgram* m_shader = nullptr;
@@ -26,4 +26,6 @@ private:
 
     int m_modelMatrixUniformLocation = -1;
     int m_textureUniformLocation = -1;
+
+    float m_elapsedTime = 0.0f;
 };

@@ -15,13 +15,13 @@ public:
     virtual bool onInit() override;
     virtual void onDestroy() override;
     virtual void onResize(int width, int height) override;
-    virtual void onUpdate(const class Window &window, float time) override;
+    virtual void onUpdate(const class Window& window, float frameTime) override;
     virtual void onDraw() override;
 private:
-    void updateCamera(const class Window &window);
-    void updateCameraTranslation(const class Window &window);
-    void updateCameraRotation(const class Window &window);
-    void updateCameraScale(const class Window &window);
+    void updateCamera(const class Window& window);
+    void updateCameraTranslation(const class Window& window);
+    void updateCameraRotation(const class Window& window);
+    void updateCameraScale(const class Window& window);
 private:
     ShaderProgram* m_shader = nullptr;
     VertexArray* m_vertexArray = nullptr;
@@ -33,6 +33,8 @@ private:
 
     int m_mvpMatrixUniformLocation = -1;
     int m_textureUniformLocation = -1;
+
+    float m_elapsedTime = 0.0f;
 
     static constexpr float CAMERA_MOVE_SPEED = 0.1f;
     static constexpr float CAMERA_ROTATION_SPEED = 0.1f;

@@ -75,6 +75,8 @@ bool OrthographicCameraRenderer::onInit()
     m_camera.setScale(glm::vec2(2.0f, 2.0f));
     m_camera.setRotation(glm::radians(0.0f));
 
+    m_elapsedTime = 0.0f;
+
     return true;
 }
 
@@ -96,19 +98,22 @@ void OrthographicCameraRenderer::onResize(int width, int height)
     m_camera.setViewportSize(glm::vec2(2.0f * aspectRatio, 2.0f));
 }
 
-void OrthographicCameraRenderer::onUpdate(const Window& window, float time)
+void OrthographicCameraRenderer::onUpdate(const Window& window, float frameTime)
 {
+    m_elapsedTime += frameTime;
+
+    // TODO extract method updateObject()
     glm::vec2 translation;
-    translation.x = 0.75f * std::cos(3.0f * time);
-    translation.y = 0.75f * std::sin(2.0f * time);
+    translation.x = 0.75f * std::cos(3.0f * m_elapsedTime);
+    translation.y = 0.75f * std::sin(2.0f * m_elapsedTime);
     m_transform.setTranslation(translation);
 
     glm::vec2 scale;
-    scale.x = std::pow(2.0f, std::cos(3.0f * time));
-    scale.y = std::pow(2.0f, std::sin(2.0f * time));
+    scale.x = std::pow(2.0f, std::cos(3.0f * m_elapsedTime));
+    scale.y = std::pow(2.0f, std::sin(2.0f * m_elapsedTime));
     m_transform.setScale(scale);
 
-    float rotation = 2.0f * time;
+    float rotation = 2.0f * m_elapsedTime;
     m_transform.setRotation(rotation);
 
     updateCamera(window);
@@ -143,14 +148,15 @@ void OrthographicCameraRenderer::onDraw()
     m_texture->unbind();
 }
 
-void OrthographicCameraRenderer::updateCamera(const Window &window)
+void OrthographicCameraRenderer::updateCamera(const Window& window)
 {
+    // TODO use frameTime
     updateCameraTranslation(window);
     updateCameraRotation(window);
     updateCameraScale(window);
 }
 
-void OrthographicCameraRenderer::updateCameraTranslation(const Window &window)
+void OrthographicCameraRenderer::updateCameraTranslation(const Window& window)
 {
     glm::vec2 translation = m_camera.getTranslation();
 
@@ -167,7 +173,7 @@ void OrthographicCameraRenderer::updateCameraTranslation(const Window &window)
     m_camera.setTranslation(translation);
 }
 
-void OrthographicCameraRenderer::updateCameraRotation(const Window &window)
+void OrthographicCameraRenderer::updateCameraRotation(const Window& window)
 {
     float rotation = m_camera.getRotation();
 
@@ -180,7 +186,7 @@ void OrthographicCameraRenderer::updateCameraRotation(const Window &window)
     m_camera.setRotation(rotation);
 }
 
-void OrthographicCameraRenderer::updateCameraScale(const Window &window)
+void OrthographicCameraRenderer::updateCameraScale(const Window& window)
 {
     float scale = m_camera.getScale().x;
 

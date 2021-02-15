@@ -33,6 +33,9 @@ Window::Window(const std::string& title, int width, int height, Renderer* render
     glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
 
     glfwMakeContextCurrent(m_window);
+    
+    // disable frame limiter
+    glfwSwapInterval(0);
 
     if (!gladLoadGL()) {
         glfwDestroyWindow(m_window);
@@ -61,18 +64,14 @@ Window::~Window()
 
 void Window::runRenderLoop()
 {
-    double prevTime = glfwGetTime();
+    float prevTime = (float)(glfwGetTime());
 
     while (!glfwWindowShouldClose(m_window)) {
-        double currTime = glfwGetTime();
+        double currTime = (float)(glfwGetTime());
         double frameTime = currTime - prevTime;
         prevTime = currTime;
 
-        double frameTimeInMs = 1000.0 * frameTime;
-        double fps = 1.0 / frameTime;
-        std::cout << "Frame Time: " << frameTime << " ms (" << fps << " FPS)" << std::endl;
-        float time = (float)(glfwGetTime());
-        m_renderer->onUpdate(*this, time);
+        m_renderer->onUpdate(*this, frameTime);
         m_renderer->onDraw();
         glfwSwapBuffers(m_window);
         glfwPollEvents();
