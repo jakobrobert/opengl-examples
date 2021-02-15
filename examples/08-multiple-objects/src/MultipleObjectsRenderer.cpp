@@ -79,6 +79,8 @@ bool MultipleObjectsRenderer::onInit()
     m_objectTransforms.emplace_back();
     m_objectTransforms.emplace_back();
 
+    m_elapsedTime = 0.0f;
+
     return true;
 }
 
@@ -100,10 +102,11 @@ void MultipleObjectsRenderer::onResize(int width, int height)
     m_camera.setViewportSize(glm::vec2(2.0f * aspectRatio, 2.0f));
 }
 
-void MultipleObjectsRenderer::onUpdate(const Window& window, float time)
+void MultipleObjectsRenderer::onUpdate(const Window& window, float frameTime)
 {
-    updateObjects(time);
-    updateCamera(window);
+    m_elapsedTime += frameTime;
+    updateObjects();
+    updateCamera(window, frameTime);
 }
 
 void MultipleObjectsRenderer::onDraw()
@@ -136,11 +139,11 @@ void MultipleObjectsRenderer::onDraw()
     m_texture->unbind();
 }
 
-void MultipleObjectsRenderer::updateObjects(float time)
+void MultipleObjectsRenderer::updateObjects()
 {
     glm::vec2 translation;
-    translation.x = 0.75f * std::cos(3.0f * time);
-    translation.y = 0.75f * std::sin(2.0f * time);
+    translation.x = 0.75f * std::cos(3.0f * m_elapsedTime);
+    translation.y = 0.75f * std::sin(2.0f * m_elapsedTime);
     m_objectTransforms[0].setTranslation(translation);
 
     translation.x += 0.5f;
@@ -152,8 +155,8 @@ void MultipleObjectsRenderer::updateObjects(float time)
     m_objectTransforms[2].setTranslation(translation);
 
     glm::vec2 scale;
-    scale.x = std::pow(2.0f, std::cos(3.0f * time));
-    scale.y = std::pow(2.0f, std::sin(2.0f * time));
+    scale.x = std::pow(2.0f, std::cos(3.0f * m_elapsedTime));
+    scale.y = std::pow(2.0f, std::sin(2.0f * m_elapsedTime));
     m_objectTransforms[0].setScale(scale);
 
     scale *= 0.75f;
@@ -162,7 +165,7 @@ void MultipleObjectsRenderer::updateObjects(float time)
     scale *= 2.0f;
     m_objectTransforms[2].setScale(scale);
 
-    float rotation = 2.0f * time;
+    float rotation = 2.0f * m_elapsedTime;
     m_objectTransforms[0].setRotation(rotation);
 
     rotation += 1.0f;
@@ -172,51 +175,54 @@ void MultipleObjectsRenderer::updateObjects(float time)
     m_objectTransforms[2].setRotation(rotation);
 }
 
-void MultipleObjectsRenderer::updateCamera(const Window &window)
+void MultipleObjectsRenderer::updateCamera(const Window& window, float frameTime)
 {
-    updateCameraTranslation(window);
-    updateCameraRotation(window);
-    updateCameraScale(window);
+    updateCameraTranslation(window, frameTime);
+    updateCameraRotation(window, frameTime);
+    updateCameraScale(window, frameTime);
 }
 
-void MultipleObjectsRenderer::updateCameraTranslation(const Window &window)
+void MultipleObjectsRenderer::updateCameraTranslation(const Window& window, float frameTime)
 {
     glm::vec2 translation = m_camera.getTranslation();
+    float moveAmount = CAMERA_MOVE_SPEED * frameTime;
 
     if (window.getKey(GLFW_KEY_A) == GLFW_PRESS) {
-        translation.x -= CAMERA_MOVE_SPEED;
+        translation.x -= moveAmount;
     } else if (window.getKey(GLFW_KEY_D) == GLFW_PRESS) {
-        translation.x += CAMERA_MOVE_SPEED;
+        translation.x += moveAmount;
     } else if (window.getKey(GLFW_KEY_S) == GLFW_PRESS) {
-        translation.y -= CAMERA_MOVE_SPEED;
+        translation.y -= moveAmount;
     } else if (window.getKey(GLFW_KEY_W) == GLFW_PRESS) {
-        translation.y += CAMERA_MOVE_SPEED;
+        translation.y += moveAmount;
     }
     
     m_camera.setTranslation(translation);
 }
 
-void MultipleObjectsRenderer::updateCameraRotation(const Window &window)
+void MultipleObjectsRenderer::updateCameraRotation(const Window& window, float frameTime)
 {
     float rotation = m_camera.getRotation();
+    float rotationAmount = CAMERA_ROTATION_SPEED * frameTime;
 
     if (window.getKey(GLFW_KEY_Q) == GLFW_PRESS) {
-        rotation += CAMERA_ROTATION_SPEED;
+        rotation += rotationAmount;
     } else if (window.getKey(GLFW_KEY_E) == GLFW_PRESS) {
-        rotation -= CAMERA_ROTATION_SPEED;
+        rotation -= rotationAmount;
     }
 
     m_camera.setRotation(rotation);
 }
 
-void MultipleObjectsRenderer::updateCameraScale(const Window &window)
+void MultipleObjectsRenderer::updateCameraScale(const Window& window, float frameTime)
 {
     float scale = m_camera.getScale().x;
+    float scaleAmount = CAMERA_SCALE_SPEED * frameTime;
 
     if (window.getKey(GLFW_KEY_Z) == GLFW_PRESS) {
-        scale /= CAMERA_SCALE_SPEED_FACTOR;
+        scale -= scaleAmount;
     } else if (window.getKey(GLFW_KEY_X) == GLFW_PRESS) {
-        scale *= CAMERA_SCALE_SPEED_FACTOR;
+        scale += scaleAmount;
     }
 
     m_camera.setScale(glm::vec2(scale, scale));

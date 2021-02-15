@@ -75,6 +75,8 @@ bool OrthographicCameraRenderer::onInit()
     m_camera.setScale(glm::vec2(2.0f, 2.0f));
     m_camera.setRotation(glm::radians(0.0f));
 
+    m_elapsedTime = 0.0f;
+
     return true;
 }
 
@@ -96,22 +98,11 @@ void OrthographicCameraRenderer::onResize(int width, int height)
     m_camera.setViewportSize(glm::vec2(2.0f * aspectRatio, 2.0f));
 }
 
-void OrthographicCameraRenderer::onUpdate(const Window& window, float time)
+void OrthographicCameraRenderer::onUpdate(const Window& window, float frameTime)
 {
-    glm::vec2 translation;
-    translation.x = 0.75f * std::cos(3.0f * time);
-    translation.y = 0.75f * std::sin(2.0f * time);
-    m_transform.setTranslation(translation);
-
-    glm::vec2 scale;
-    scale.x = std::pow(2.0f, std::cos(3.0f * time));
-    scale.y = std::pow(2.0f, std::sin(2.0f * time));
-    m_transform.setScale(scale);
-
-    float rotation = 2.0f * time;
-    m_transform.setRotation(rotation);
-
-    updateCamera(window);
+    m_elapsedTime += frameTime;
+    updateObject(window);
+    updateCamera(window, frameTime);
 }
 
 void OrthographicCameraRenderer::onDraw()
@@ -143,51 +134,70 @@ void OrthographicCameraRenderer::onDraw()
     m_texture->unbind();
 }
 
-void OrthographicCameraRenderer::updateCamera(const Window &window)
+void OrthographicCameraRenderer::updateObject(const Window& window)
 {
-    updateCameraTranslation(window);
-    updateCameraRotation(window);
-    updateCameraScale(window);
+    glm::vec2 translation;
+    translation.x = 0.75f * std::cos(3.0f * m_elapsedTime);
+    translation.y = 0.75f * std::sin(2.0f * m_elapsedTime);
+    m_transform.setTranslation(translation);
+
+    glm::vec2 scale;
+    scale.x = std::pow(2.0f, std::cos(3.0f * m_elapsedTime));
+    scale.y = std::pow(2.0f, std::sin(2.0f * m_elapsedTime));
+    m_transform.setScale(scale);
+
+    float rotation = 2.0f * m_elapsedTime;
+    m_transform.setRotation(rotation);
 }
 
-void OrthographicCameraRenderer::updateCameraTranslation(const Window &window)
+void OrthographicCameraRenderer::updateCamera(const Window& window, float frameTime)
+{
+    updateCameraTranslation(window, frameTime);
+    updateCameraRotation(window, frameTime);
+    updateCameraScale(window, frameTime);
+}
+
+void OrthographicCameraRenderer::updateCameraTranslation(const Window& window, float frameTime)
 {
     glm::vec2 translation = m_camera.getTranslation();
+    float moveAmount = CAMERA_MOVE_SPEED * frameTime;
 
     if (window.getKey(GLFW_KEY_A) == GLFW_PRESS) {
-        translation.x -= CAMERA_MOVE_SPEED;
+        translation.x -= moveAmount;
     } else if (window.getKey(GLFW_KEY_D) == GLFW_PRESS) {
-        translation.x += CAMERA_MOVE_SPEED;
+        translation.x += moveAmount;
     } else if (window.getKey(GLFW_KEY_S) == GLFW_PRESS) {
-        translation.y -= CAMERA_MOVE_SPEED;
+        translation.y -= moveAmount;
     } else if (window.getKey(GLFW_KEY_W) == GLFW_PRESS) {
-        translation.y += CAMERA_MOVE_SPEED;
+        translation.y += moveAmount;
     }
     
     m_camera.setTranslation(translation);
 }
 
-void OrthographicCameraRenderer::updateCameraRotation(const Window &window)
+void OrthographicCameraRenderer::updateCameraRotation(const Window& window, float frameTime)
 {
     float rotation = m_camera.getRotation();
+    float rotationAmount = CAMERA_ROTATION_SPEED * frameTime;
 
     if (window.getKey(GLFW_KEY_Q) == GLFW_PRESS) {
-        rotation += CAMERA_ROTATION_SPEED;
+        rotation += rotationAmount;
     } else if (window.getKey(GLFW_KEY_E) == GLFW_PRESS) {
-        rotation -= CAMERA_ROTATION_SPEED;
+        rotation -= rotationAmount;
     }
 
     m_camera.setRotation(rotation);
 }
 
-void OrthographicCameraRenderer::updateCameraScale(const Window &window)
+void OrthographicCameraRenderer::updateCameraScale(const Window& window, float frameTime)
 {
     float scale = m_camera.getScale().x;
+    float scaleAmount = CAMERA_SCALE_SPEED * frameTime;
 
     if (window.getKey(GLFW_KEY_Z) == GLFW_PRESS) {
-        scale /= CAMERA_SCALE_SPEED_FACTOR;
+        scale -= scaleAmount;
     } else if (window.getKey(GLFW_KEY_X) == GLFW_PRESS) {
-        scale *= CAMERA_SCALE_SPEED_FACTOR;
+        scale += scaleAmount;
     }
 
     m_camera.setScale(glm::vec2(scale, scale));
