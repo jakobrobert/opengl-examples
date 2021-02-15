@@ -18,6 +18,7 @@ public:
     virtual void onUpdate(const class Window& window, float frameTime) override;
     virtual void onDraw() override;
 private:
+    void updateObject(const class Window& window);
     void updateCamera(const class Window& window);
     void updateCameraTranslation(const class Window& window);
     void updateCameraRotation(const class Window& window);

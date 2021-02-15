@@ -101,21 +101,7 @@ void OrthographicCameraRenderer::onResize(int width, int height)
 void OrthographicCameraRenderer::onUpdate(const Window& window, float frameTime)
 {
     m_elapsedTime += frameTime;
-
-    // TODO extract method updateObject()
-    glm::vec2 translation;
-    translation.x = 0.75f * std::cos(3.0f * m_elapsedTime);
-    translation.y = 0.75f * std::sin(2.0f * m_elapsedTime);
-    m_transform.setTranslation(translation);
-
-    glm::vec2 scale;
-    scale.x = std::pow(2.0f, std::cos(3.0f * m_elapsedTime));
-    scale.y = std::pow(2.0f, std::sin(2.0f * m_elapsedTime));
-    m_transform.setScale(scale);
-
-    float rotation = 2.0f * m_elapsedTime;
-    m_transform.setRotation(rotation);
-
+    updateObject(window);
     updateCamera(window);
 }
 
@@ -146,6 +132,22 @@ void OrthographicCameraRenderer::onDraw()
     m_shader->unuse();
     m_vertexArray->unbind();
     m_texture->unbind();
+}
+
+void OrthographicCameraRenderer::updateObject(const Window& window)
+{
+    glm::vec2 translation;
+    translation.x = 0.75f * std::cos(3.0f * m_elapsedTime);
+    translation.y = 0.75f * std::sin(2.0f * m_elapsedTime);
+    m_transform.setTranslation(translation);
+
+    glm::vec2 scale;
+    scale.x = std::pow(2.0f, std::cos(3.0f * m_elapsedTime));
+    scale.y = std::pow(2.0f, std::sin(2.0f * m_elapsedTime));
+    m_transform.setScale(scale);
+
+    float rotation = 2.0f * m_elapsedTime;
+    m_transform.setRotation(rotation);
 }
 
 void OrthographicCameraRenderer::updateCamera(const Window& window)
