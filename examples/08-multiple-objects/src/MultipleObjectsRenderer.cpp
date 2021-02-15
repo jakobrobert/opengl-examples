@@ -106,7 +106,7 @@ void MultipleObjectsRenderer::onUpdate(const Window& window, float frameTime)
 {
     m_elapsedTime += frameTime;
     updateObjects();
-    updateCamera(window);
+    updateCamera(window, frameTime);
 }
 
 void MultipleObjectsRenderer::onDraw()
@@ -175,52 +175,54 @@ void MultipleObjectsRenderer::updateObjects()
     m_objectTransforms[2].setRotation(rotation);
 }
 
-void MultipleObjectsRenderer::updateCamera(const Window& window)
+void MultipleObjectsRenderer::updateCamera(const Window& window, float frameTime)
 {
-    // TODO use frame time
-    updateCameraTranslation(window);
-    updateCameraRotation(window);
-    updateCameraScale(window);
+    updateCameraTranslation(window, frameTime);
+    updateCameraRotation(window, frameTime);
+    updateCameraScale(window, frameTime);
 }
 
-void MultipleObjectsRenderer::updateCameraTranslation(const Window& window)
+void MultipleObjectsRenderer::updateCameraTranslation(const Window& window, float frameTime)
 {
     glm::vec2 translation = m_camera.getTranslation();
+    float moveAmount = CAMERA_MOVE_SPEED * frameTime;
 
     if (window.getKey(GLFW_KEY_A) == GLFW_PRESS) {
-        translation.x -= CAMERA_MOVE_SPEED;
+        translation.x -= moveAmount;
     } else if (window.getKey(GLFW_KEY_D) == GLFW_PRESS) {
-        translation.x += CAMERA_MOVE_SPEED;
+        translation.x += moveAmount;
     } else if (window.getKey(GLFW_KEY_S) == GLFW_PRESS) {
-        translation.y -= CAMERA_MOVE_SPEED;
+        translation.y -= moveAmount;
     } else if (window.getKey(GLFW_KEY_W) == GLFW_PRESS) {
-        translation.y += CAMERA_MOVE_SPEED;
+        translation.y += moveAmount;
     }
     
     m_camera.setTranslation(translation);
 }
 
-void MultipleObjectsRenderer::updateCameraRotation(const Window& window)
+void MultipleObjectsRenderer::updateCameraRotation(const Window& window, float frameTime)
 {
     float rotation = m_camera.getRotation();
+    float rotationAmount = CAMERA_ROTATION_SPEED * frameTime;
 
     if (window.getKey(GLFW_KEY_Q) == GLFW_PRESS) {
-        rotation += CAMERA_ROTATION_SPEED;
+        rotation += rotationAmount;
     } else if (window.getKey(GLFW_KEY_E) == GLFW_PRESS) {
-        rotation -= CAMERA_ROTATION_SPEED;
+        rotation -= rotationAmount;
     }
 
     m_camera.setRotation(rotation);
 }
 
-void MultipleObjectsRenderer::updateCameraScale(const Window& window)
+void MultipleObjectsRenderer::updateCameraScale(const Window& window, float frameTime)
 {
     float scale = m_camera.getScale().x;
+    float scaleAmount = CAMERA_SCALE_SPEED * frameTime;
 
     if (window.getKey(GLFW_KEY_Z) == GLFW_PRESS) {
-        scale /= CAMERA_SCALE_SPEED_FACTOR;
+        scale -= scaleAmount;
     } else if (window.getKey(GLFW_KEY_X) == GLFW_PRESS) {
-        scale *= CAMERA_SCALE_SPEED_FACTOR;
+        scale += scaleAmount;
     }
 
     m_camera.setScale(glm::vec2(scale, scale));

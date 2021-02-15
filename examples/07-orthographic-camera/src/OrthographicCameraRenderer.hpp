@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 #include <core/Renderer.hpp>
 #include <core/gl/ShaderProgram.hpp>
 #include <core/gl/VertexArray.hpp>
@@ -19,10 +21,10 @@ public:
     virtual void onDraw() override;
 private:
     void updateObject(const class Window& window);
-    void updateCamera(const class Window& window);
-    void updateCameraTranslation(const class Window& window);
-    void updateCameraRotation(const class Window& window);
-    void updateCameraScale(const class Window& window);
+    void updateCamera(const class Window& window, float frameTime);
+    void updateCameraTranslation(const class Window& window, float frameTime);
+    void updateCameraRotation(const class Window& window, float frameTime);
+    void updateCameraScale(const class Window& window, float frameTime);
 private:
     ShaderProgram* m_shader = nullptr;
     VertexArray* m_vertexArray = nullptr;
@@ -37,7 +39,8 @@ private:
 
     float m_elapsedTime = 0.0f;
 
-    static constexpr float CAMERA_MOVE_SPEED = 0.1f;
-    static constexpr float CAMERA_ROTATION_SPEED = 0.1f;
-    static constexpr float CAMERA_SCALE_SPEED_FACTOR = 1.02f;
+    // speed in units per second
+    static constexpr float CAMERA_MOVE_SPEED = 4.0f;
+    static constexpr float CAMERA_ROTATION_SPEED = (float)(M_PI); // 180° per second
+    static constexpr float CAMERA_SCALE_SPEED = 2.0f;
 };
