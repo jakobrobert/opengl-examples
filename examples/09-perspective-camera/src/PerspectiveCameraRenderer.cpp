@@ -71,9 +71,12 @@ bool PerspectiveCameraRenderer::onInit()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    m_camera.setTranslation(glm::vec2(1.0f, 0.5f));
-    m_camera.setScale(glm::vec2(2.0f, 2.0f));
-    m_camera.setRotation(glm::radians(0.0f));
+    m_camera.setFov(glm::radians(45.0f));
+    m_camera.setNearPlane(0.1f);
+    m_camera.setFarPlane(100.0f);
+
+    m_camera.setTranslation(glm::vec3(0.5f, 1.0f, 5.0f));
+    m_camera.setRotation(glm::vec3(0.0f, 0.0f, 0.0f));
 
     m_objectTransforms.emplace_back();
     m_objectTransforms.emplace_back();
@@ -99,7 +102,7 @@ void PerspectiveCameraRenderer::onResize(int width, int height)
     glViewport(0, 0, width, height);
 
     float aspectRatio = (float)(width) / (float)(height);
-    m_camera.setViewportSize(glm::vec2(2.0f * aspectRatio, 2.0f));
+    m_camera.setAspectRatio(aspectRatio);
 }
 
 void PerspectiveCameraRenderer::onUpdate(const Window& window, float frameTime)
@@ -179,11 +182,11 @@ void PerspectiveCameraRenderer::updateCamera(const Window& window, float frameTi
 {
     updateCameraTranslation(window, frameTime);
     updateCameraRotation(window, frameTime);
-    updateCameraScale(window, frameTime);
 }
 
 void PerspectiveCameraRenderer::updateCameraTranslation(const Window& window, float frameTime)
 {
+    /*
     glm::vec2 translation = m_camera.getTranslation();
     float moveAmount = CAMERA_MOVE_SPEED * frameTime;
 
@@ -198,10 +201,12 @@ void PerspectiveCameraRenderer::updateCameraTranslation(const Window& window, fl
     }
     
     m_camera.setTranslation(translation);
+    */
 }
 
 void PerspectiveCameraRenderer::updateCameraRotation(const Window& window, float frameTime)
 {
+    /*
     float rotation = m_camera.getRotation();
     float rotationAmount = CAMERA_ROTATION_SPEED * frameTime;
 
@@ -212,18 +217,5 @@ void PerspectiveCameraRenderer::updateCameraRotation(const Window& window, float
     }
 
     m_camera.setRotation(rotation);
-}
-
-void PerspectiveCameraRenderer::updateCameraScale(const Window& window, float frameTime)
-{
-    float scale = m_camera.getScale().x;
-    float scaleAmount = CAMERA_SCALE_SPEED * frameTime;
-
-    if (window.getKey(GLFW_KEY_Z) == GLFW_PRESS) {
-        scale -= scaleAmount;
-    } else if (window.getKey(GLFW_KEY_X) == GLFW_PRESS) {
-        scale += scaleAmount;
-    }
-
-    m_camera.setScale(glm::vec2(scale, scale));
+    */
 }

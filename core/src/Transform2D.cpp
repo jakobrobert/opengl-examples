@@ -3,7 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 Transform2D::Transform2D()
-:   m_translation(),
+:   m_translation(0.0f, 0.0f),
     m_scale(1.0f, 1.0f),
     m_rotation(0.0f)
 {}

@@ -9,7 +9,7 @@
 #include <core/gl/IndexBuffer.hpp>
 #include <core/gl/Texture.hpp>
 #include <core/Transform2D.hpp>
-#include <core/OrthographicCamera.hpp>
+#include <core/PerspectiveCamera.hpp>
 
 class PerspectiveCameraRenderer : public Renderer
 {
@@ -24,14 +24,13 @@ private:
     void updateCamera(const class Window& window, float frameTime);
     void updateCameraTranslation(const class Window& window, float frameTime);
     void updateCameraRotation(const class Window &window, float frameTime);
-    void updateCameraScale(const class Window &window, float frameTime);
 private:
     ShaderProgram* m_shader = nullptr;
     VertexArray* m_vertexArray = nullptr;
     VertexBuffer* m_vertexBuffer = nullptr;
     IndexBuffer* m_indexBuffer = nullptr;
     Texture* m_texture = nullptr;
-    OrthographicCamera m_camera;
+    PerspectiveCamera m_camera;
 
     std::vector<Transform2D> m_objectTransforms;
 
@@ -43,5 +42,4 @@ private:
     // speed in units per second
     static constexpr float CAMERA_MOVE_SPEED = 4.0f;
     static constexpr float CAMERA_ROTATION_SPEED = (float)(M_PI); // 180° per second
-    static constexpr float CAMERA_SCALE_SPEED = 2.0f;
 };
