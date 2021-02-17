@@ -2,8 +2,6 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-#include <core/Transform2D.hpp>
-
 glm::mat4 OrthographicCamera::getProjectionMatrix() const
 {
     float left = -0.5 * m_viewportSize.x;

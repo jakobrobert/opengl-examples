@@ -1,4 +1,4 @@
-#include "MultipleObjectsRenderer.hpp"
+#include "PerspectiveCameraRenderer.hpp"
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -10,7 +10,7 @@
 
 #include <core/Window.hpp>
 
-bool MultipleObjectsRenderer::onInit()
+bool PerspectiveCameraRenderer::onInit()
 {
     // create shader
     std::string shaderFilename = "assets/shaders/texture_and_vertex_color";
@@ -69,9 +69,12 @@ bool MultipleObjectsRenderer::onInit()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    m_camera.setTranslation(glm::vec2(1.0f, 0.5f));
-    m_camera.setScale(glm::vec2(2.0f, 2.0f));
-    m_camera.setRotation(glm::radians(0.0f));
+    m_camera.setFov(glm::radians(45.0f));
+    m_camera.setNearPlane(0.1f);
+    m_camera.setFarPlane(1000.0f);
+
+    m_camera.setTranslation(glm::vec3(0.5f, 1.0f, 5.0f));
+    m_camera.setRotation(glm::vec3(0.0f, 0.0f, 0.0f));
 
     m_objectTransforms.emplace_back();
     m_objectTransforms.emplace_back();
@@ -82,7 +85,7 @@ bool MultipleObjectsRenderer::onInit()
     return true;
 }
 
-void MultipleObjectsRenderer::onDestroy()
+void PerspectiveCameraRenderer::onDestroy()
 {
     // clean up: delete all opengl objects
     delete m_shader;
@@ -92,22 +95,22 @@ void MultipleObjectsRenderer::onDestroy()
     delete m_texture;
 }
 
-void MultipleObjectsRenderer::onResize(int width, int height)
+void PerspectiveCameraRenderer::onResize(int width, int height)
 {
     glViewport(0, 0, width, height);
 
     float aspectRatio = (float)(width) / (float)(height);
-    m_camera.setViewportSize(glm::vec2(2.0f * aspectRatio, 2.0f));
+    m_camera.setAspectRatio(aspectRatio);
 }
 
-void MultipleObjectsRenderer::onUpdate(const Window& window, float frameTime)
+void PerspectiveCameraRenderer::onUpdate(const Window& window, float frameTime)
 {
     m_elapsedTime += frameTime;
     updateObjects();
     updateCamera(window, frameTime);
 }
 
-void MultipleObjectsRenderer::onDraw()
+void PerspectiveCameraRenderer::onDraw()
 {
     // clear screen
     glClear(GL_COLOR_BUFFER_BIT);
@@ -137,7 +140,7 @@ void MultipleObjectsRenderer::onDraw()
     m_texture->unbind();
 }
 
-void MultipleObjectsRenderer::updateObjects()
+void PerspectiveCameraRenderer::updateObjects()
 {
     glm::vec2 translation;
     translation.x = 0.75f * std::cos(3.0f * m_elapsedTime);
@@ -173,16 +176,15 @@ void MultipleObjectsRenderer::updateObjects()
     m_objectTransforms[2].setRotation(rotation);
 }
 
-void MultipleObjectsRenderer::updateCamera(const Window& window, float frameTime)
+void PerspectiveCameraRenderer::updateCamera(const Window& window, float frameTime)
 {
     updateCameraTranslation(window, frameTime);
     updateCameraRotation(window, frameTime);
-    updateCameraScale(window, frameTime);
 }
 
-void MultipleObjectsRenderer::updateCameraTranslation(const Window& window, float frameTime)
+void PerspectiveCameraRenderer::updateCameraTranslation(const Window& window, float frameTime)
 {
-    glm::vec2 translation = m_camera.getTranslation();
+    glm::vec3 translation = m_camera.getTranslation();
     float moveAmount = CAMERA_MOVE_SPEED * frameTime;
 
     if (window.getKey(GLFW_KEY_A) == GLFW_PRESS) {
@@ -190,38 +192,32 @@ void MultipleObjectsRenderer::updateCameraTranslation(const Window& window, floa
     } else if (window.getKey(GLFW_KEY_D) == GLFW_PRESS) {
         translation.x += moveAmount;
     } else if (window.getKey(GLFW_KEY_S) == GLFW_PRESS) {
-        translation.y -= moveAmount;
+        translation.z += moveAmount;
     } else if (window.getKey(GLFW_KEY_W) == GLFW_PRESS) {
+        translation.z -= moveAmount;
+    } else if (window.getKey(GLFW_KEY_Q) == GLFW_PRESS) {
+        translation.y -= moveAmount;
+    } else if (window.getKey(GLFW_KEY_E) == GLFW_PRESS) {
         translation.y += moveAmount;
     }
-    
+
     m_camera.setTranslation(translation);
 }
 
-void MultipleObjectsRenderer::updateCameraRotation(const Window& window, float frameTime)
+void PerspectiveCameraRenderer::updateCameraRotation(const Window& window, float frameTime)
 {
-    float rotation = m_camera.getRotation();
+    glm::vec3 rotation = m_camera.getRotation();
     float rotationAmount = CAMERA_ROTATION_SPEED * frameTime;
 
-    if (window.getKey(GLFW_KEY_Q) == GLFW_PRESS) {
-        rotation += rotationAmount;
-    } else if (window.getKey(GLFW_KEY_E) == GLFW_PRESS) {
-        rotation -= rotationAmount;
+    if (window.getKey(GLFW_KEY_LEFT) == GLFW_PRESS) {
+        rotation.y += rotationAmount;
+    } else if (window.getKey(GLFW_KEY_RIGHT) == GLFW_PRESS) {
+        rotation.y -= rotationAmount;
+    } else if (window.getKey(GLFW_KEY_DOWN) == GLFW_PRESS) {
+        rotation.x -= rotationAmount;
+    } else if (window.getKey(GLFW_KEY_UP) == GLFW_PRESS) {
+        rotation.x += rotationAmount;
     }
 
     m_camera.setRotation(rotation);
-}
-
-void MultipleObjectsRenderer::updateCameraScale(const Window& window, float frameTime)
-{
-    float scale = m_camera.getScale().x;
-    float scaleAmount = CAMERA_SCALE_SPEED * frameTime;
-
-    if (window.getKey(GLFW_KEY_Z) == GLFW_PRESS) {
-        scale -= scaleAmount;
-    } else if (window.getKey(GLFW_KEY_X) == GLFW_PRESS) {
-        scale += scaleAmount;
-    }
-
-    m_camera.setScale(glm::vec2(scale, scale));
 }

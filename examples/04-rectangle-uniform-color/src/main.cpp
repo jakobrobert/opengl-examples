@@ -8,8 +8,7 @@
 
 int main()
 {
-    try
-    {
+    try {
         RectangleRenderer renderer;
         Window window("04 - Rectangle with Uniform Color", 800, 800, &renderer);
         window.runRenderLoop();

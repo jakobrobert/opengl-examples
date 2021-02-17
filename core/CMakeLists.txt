@@ -4,11 +4,13 @@ add_library(core
     src/gl/ShaderProgram.cpp
     src/gl/VertexArray.cpp
     src/gl/VertexBuffer.cpp
+    src/gl/VertexLayout.cpp
     src/gl/IndexBuffer.cpp
     src/gl/Texture.cpp
-    src/gl/VertexLayout.cpp
     src/Transform2D.cpp
+    src/Transform3D.cpp
     src/OrthographicCamera.cpp
+    src/PerspectiveCamera.cpp
 )
 
 # Add include directory to core

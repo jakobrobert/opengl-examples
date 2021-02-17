@@ -4,13 +4,13 @@
 
 #include <core/Window.hpp>
 
-#include "OrthographicCameraRenderer.hpp"
+#include "PerspectiveCameraRenderer.hpp"
 
 int main()
 {
     try {
-        OrthographicCameraRenderer renderer;
-        Window window("07 - Orthographic Camera", 800, 600, &renderer);
+        PerspectiveCameraRenderer renderer;
+        Window window("09 - Perspective Camera", 800, 600, &renderer);
         window.runRenderLoop();
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;

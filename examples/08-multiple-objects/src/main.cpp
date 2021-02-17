@@ -8,8 +8,7 @@
 
 int main()
 {
-    try
-    {
+    try {
         MultipleObjectsRenderer renderer;
         Window window("08 - Multiple Objects", 800, 600, &renderer);
         window.runRenderLoop();
