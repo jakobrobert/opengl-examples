@@ -41,6 +41,6 @@ private:
 
     // speed in units per second
     static constexpr float CAMERA_MOVE_SPEED = 4.0f;
-    static constexpr float CAMERA_ROTATION_SPEED = (float)(M_PI); // 180° per second
+    static constexpr float CAMERA_ROTATION_SPEED = (float)(0.5 * M_PI); // 90° per second
     static constexpr float CAMERA_SCALE_SPEED = 2.0f;
 };

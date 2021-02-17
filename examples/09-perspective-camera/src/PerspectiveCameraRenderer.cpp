@@ -73,7 +73,7 @@ bool PerspectiveCameraRenderer::onInit()
 
     m_camera.setFov(glm::radians(45.0f));
     m_camera.setNearPlane(0.1f);
-    m_camera.setFarPlane(100.0f);
+    m_camera.setFarPlane(1000.0f);
 
     m_camera.setTranslation(glm::vec3(0.5f, 1.0f, 5.0f));
     m_camera.setRotation(glm::vec3(0.0f, 0.0f, 0.0f));
@@ -186,8 +186,7 @@ void PerspectiveCameraRenderer::updateCamera(const Window& window, float frameTi
 
 void PerspectiveCameraRenderer::updateCameraTranslation(const Window& window, float frameTime)
 {
-    /*
-    glm::vec2 translation = m_camera.getTranslation();
+    glm::vec3 translation = m_camera.getTranslation();
     float moveAmount = CAMERA_MOVE_SPEED * frameTime;
 
     if (window.getKey(GLFW_KEY_A) == GLFW_PRESS) {
@@ -195,27 +194,32 @@ void PerspectiveCameraRenderer::updateCameraTranslation(const Window& window, fl
     } else if (window.getKey(GLFW_KEY_D) == GLFW_PRESS) {
         translation.x += moveAmount;
     } else if (window.getKey(GLFW_KEY_S) == GLFW_PRESS) {
-        translation.y -= moveAmount;
+        translation.z += moveAmount;
     } else if (window.getKey(GLFW_KEY_W) == GLFW_PRESS) {
+        translation.z -= moveAmount;
+    } else if (window.getKey(GLFW_KEY_Q) == GLFW_PRESS) {
+        translation.y -= moveAmount;
+    } else if (window.getKey(GLFW_KEY_E) == GLFW_PRESS) {
         translation.y += moveAmount;
     }
-    
+
     m_camera.setTranslation(translation);
-    */
 }
 
 void PerspectiveCameraRenderer::updateCameraRotation(const Window& window, float frameTime)
 {
-    /*
-    float rotation = m_camera.getRotation();
+    glm::vec3 rotation = m_camera.getRotation();
     float rotationAmount = CAMERA_ROTATION_SPEED * frameTime;
 
-    if (window.getKey(GLFW_KEY_Q) == GLFW_PRESS) {
-        rotation += rotationAmount;
-    } else if (window.getKey(GLFW_KEY_E) == GLFW_PRESS) {
-        rotation -= rotationAmount;
+    if (window.getKey(GLFW_KEY_LEFT) == GLFW_PRESS) {
+        rotation.y += rotationAmount;
+    } else if (window.getKey(GLFW_KEY_RIGHT) == GLFW_PRESS) {
+        rotation.y -= rotationAmount;
+    } else if (window.getKey(GLFW_KEY_DOWN) == GLFW_PRESS) {
+        rotation.x -= rotationAmount;
+    } else if (window.getKey(GLFW_KEY_UP) == GLFW_PRESS) {
+        rotation.x += rotationAmount;
     }
 
     m_camera.setRotation(rotation);
-    */
 }
