@@ -8,8 +8,7 @@
 
 int main()
 {
-    try
-    {
+    try {
         TransformationsRenderer renderer;
         Window window("06 - Transformations", 800, 800, &renderer);
         window.runRenderLoop();

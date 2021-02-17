@@ -8,8 +8,7 @@
 
 int main()
 {
-    try
-    {
+    try {
         TextureRenderer renderer;
         Window window("05 - Texture", 800, 800, &renderer);
         window.runRenderLoop();

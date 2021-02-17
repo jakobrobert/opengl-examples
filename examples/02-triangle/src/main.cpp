@@ -8,8 +8,7 @@
 
 int main()
 {
-    try
-    {
+    try {
         TriangleRenderer renderer;
         Window window("02 - Triangle", 800, 800, &renderer);
         window.runRenderLoop();
