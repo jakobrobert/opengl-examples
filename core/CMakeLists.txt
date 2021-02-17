@@ -10,6 +10,7 @@ add_library(core
     src/Transform2D.cpp
     src/Transform3D.cpp
     src/OrthographicCamera.cpp
+    src/PerspectiveCamera.cpp
 )
 
 # Add include directory to core
